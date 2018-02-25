@@ -22,3 +22,7 @@ key_trigger {
   input: KEY_1
   action: "_TOGGLEPROFILER"
 }
+key_trigger {
+  input: KEY_ESC
+  action: "_EXIT"
+}

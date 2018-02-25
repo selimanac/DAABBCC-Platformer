@@ -111,11 +111,29 @@ function init(self)
 			on_enter_falling = do_falling,
 		}
 	})
+
+
 end
 
 function final(self)
     -- Add finalization code here
     -- Remove this function if not needed
+end
+
+local function collectStar(star_id) 
+	daabbcc.removeAABB("world",star_id)
+
+	local go_name = "/"..controller.world["collectables"][star_id]["name"]
+	local go_pos  = controller.world["collectables"][star_id]["position"]
+	local go_sprite = controller.world["collectables"][star_id]["sprite"]
+	local go_to = go_pos
+	go_to.y= go_to.y+30
+
+	controller.world["collectables"][star_id] = nil
+
+	go.animate(go_name, "position", go.PLAYBACK_ONCE_FORWARD, go_to, go.EASING_INSINE, 0.4, 0,function() go.delete(go_name)end)
+	--go.animate(go_sprite, "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTINSINE, 0.5, 0,function() go.delete(go_name)end)
+	
 end
 
 function update(self, dt)
@@ -140,6 +158,11 @@ function update(self, dt)
 
 	if is_grounded == false and  herofsm.current ~= "jumping" then 
 		if herofsm.current ~= "falling"   then
+			--[[
+
+			acceleration.x = 0
+			max_velocity.x = 0
+			]]--
 			herofsm:JUMP()
 			herofsm:FALL()
 		end 
@@ -147,8 +170,8 @@ function update(self, dt)
 
 	hero_pos = hero_pos + (old_velocity + velocity) * 6.5 * dt; 
 
-	--daabbcc.updateRect("world", hero_id, hero_pos.x, hero_pos.y, 5, hero_size.y)
-	controller.updateRect("world",hero_id,hero_pos,hero_size  )
+	
+	daabbcc.updateRect("world",hero_id, hero_pos.x , hero_pos.y, hero_size.x, hero_size.y)
 
 	local query_result = daabbcc.queryID("world", hero_id)
 
@@ -156,11 +179,18 @@ function update(self, dt)
 
 		for i = 1, #query_result do
 			local result_id = query_result[i]
-			local count, depth, mnormal, contact_points = daabbcc.checkManifold("world", hero_id, result_id)	
-			--[[Terrible way of handling one-side platform :) ]]--
-			if (depth * mnormal.y) < 0 and (depth * mnormal.y) > -7.5 and mnormal.y == -1 and herofsm.current ~= "jumping"  then	
-				
+			if controller.world["collectables"][result_id] ~= nil then 
+					collectStar(result_id )
+				break	
+			end
 
+			local count, depth, mnormal, contact_points = daabbcc.checkManifold("world", hero_id, result_id)	
+				
+			--[[Terrible way of handling one-side platform :) 
+				(depth * mnormal.y) < 0 and (depth * mnormal.y) > -7.5 and
+			]]--
+			if (depth * mnormal.y) < 0 and (depth * mnormal.y) > -8 and mnormal.y == -1 and herofsm.current ~= "jumping"  then	
+				--print( depth * mnormal.y)
 				--[[Handle platform ]]--
 				if count ~= nil then 
 					is_grounded = true 		
@@ -193,7 +223,6 @@ function update(self, dt)
 end
 
 function on_message(self, message_id, message, sender)
-
 	if message_id== hash("set_hero") then 
 		hero_id = daabbcc.insertRect("world", hero_pos.x, hero_pos.y, hero_size.x,hero_size.y)
 		print("Hero ID: " , hero_id)

@@ -1,6 +1,6 @@
 [project]
 title = DAABBCC Platformer
-version = 0.1
+version = 0.2
 dependencies = https://github.com/britzl/defold-orthographic/archive/master.zip,https://github.com/subsoap/defos/archive/master.zip,https://github.com/selimanac/DAABBCC/archive/dev.zip
 
 [bootstrap]
@@ -16,6 +16,7 @@ repeat_interval = 0.1
 [display]
 width = 640
 height = 360
+variable_dt = 0
 
 [physics]
 scale = 0.02
@@ -26,4 +27,7 @@ shared_state = 1
 [graphics]
 default_texture_min_filter = nearest
 default_texture_mag_filter = nearest
+
+[native_extension]
+app_manifest = /release-nophysic.appmanifest
 
