@@ -4,16 +4,16 @@ local ground_count = 6
 local hero_msg = msg.url("main:/bunny#Hero")
 
 
-local function insetRects (_type)
-	local ground_pos = vmath.vector3()
-	local ground_size = vmath.vector3()
-	local sprite_url = msg.url()
+local function insetRects (_type, _count)
+	local _pos = vmath.vector3()
+	local _size = vmath.vector3()
+	local _sprite_url = msg.url()
 
-	for i = 1, ground_count do
-		ground_pos = go.get_position("ground"..i)
-		sprite_url = msg.url("/ground"..i.."#sprite")
-		ground_size = go.get(sprite_url, "size")
-		local id = controller.addRect("world",ground_pos, ground_size,_type )
+	for i = 1, _count do
+		_pos = go.get_position(_type..i)
+		_sprite_url = msg.url(_type..i.."#sprite")
+		_size = go.get(_sprite_url, "size")
+		local id = controller.addRect("world",_pos, _size, _type )
 		pprint(id)
 	end
 
@@ -35,7 +35,8 @@ function init(self)
 
 	daabbcc.createTree("world", 2, 0.0, 100)
 
-	insetRects("ground")
+	insetRects("ground", 6)
+	insetRects("collectable", 1)
 
 	-- Hero
 	

@@ -143,6 +143,31 @@ animations {
   flip_horizontal: 0
   flip_vertical: 0
 }
+animations {
+  id: "star"
+  images {
+    image: "/assets/png/sprites/misc/star/star-1.png"
+  }
+  images {
+    image: "/assets/png/sprites/misc/star/star-2.png"
+  }
+  images {
+    image: "/assets/png/sprites/misc/star/star-3.png"
+  }
+  images {
+    image: "/assets/png/sprites/misc/star/star-4.png"
+  }
+  images {
+    image: "/assets/png/sprites/misc/star/star-5.png"
+  }
+  images {
+    image: "/assets/png/sprites/misc/star/star-6.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+  flip_horizontal: 0
+  flip_vertical: 0
+}
 margin: 0
 extrude_borders: 1
 inner_padding: 0

@@ -1,9 +1,6 @@
 local M={}
 
 M.world = {}
-
-M.sub_world = {}
-
 local world =  M.world
 
 
@@ -17,7 +14,7 @@ function M.addRect(_name, _position,_size,_type)
 	return _id
 end
 
-function M.updateRect(_name, _size, _position,_id)
+function M.updateRect(_name, _id, _position, _size)
 	daabbcc.updateRect(_name,_id, _position.x , _position.y, _size.x, _size.y)
 end
 
