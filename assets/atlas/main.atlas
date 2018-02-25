@@ -1,0 +1,148 @@
+images {
+  image: "/assets/png/environment/layers/background.png"
+}
+images {
+  image: "/assets/png/environment/layers/middleground.png"
+}
+images {
+  image: "/assets/tiles/tests.png"
+}
+images {
+  image: "/assets/tiles/tests10.png"
+}
+images {
+  image: "/assets/tiles/tests11.png"
+}
+images {
+  image: "/assets/tiles/tests2.png"
+}
+images {
+  image: "/assets/tiles/tests3.png"
+}
+images {
+  image: "/assets/tiles/tests4.png"
+}
+images {
+  image: "/assets/tiles/tests5.png"
+}
+images {
+  image: "/assets/tiles/tests6.png"
+}
+images {
+  image: "/assets/tiles/tests7.png"
+}
+images {
+  image: "/assets/tiles/tests8.png"
+}
+images {
+  image: "/assets/tiles/tests9.png"
+}
+images {
+  image: "/assets/png/back.png"
+}
+animations {
+  id: "player-idle"
+  images {
+    image: "/assets/png/sprites/player/player-idle/player-idle-1.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-idle/player-idle-2.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-idle/player-idle-3.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-idle/player-idle-4.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-idle/player-idle-5.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-idle/player-idle-6.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-idle/player-idle-7.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-idle/player-idle-8.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-idle/player-idle-9.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player-jump"
+  images {
+    image: "/assets/png/sprites/player/player-jump/player-jump-1.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-jump/player-jump-2.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-jump/player-jump-3.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-jump/player-jump-4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player-fall"
+  images {
+    image: "/assets/png/sprites/player/player-fall/player-fall-1.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-fall/player-fall-2.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-fall/player-fall-3.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-fall/player-fall-4.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player-skip"
+  images {
+    image: "/assets/png/sprites/player/player-skip/player-skip-1.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-skip/player-skip-2.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-skip/player-skip-3.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-skip/player-skip-4.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-skip/player-skip-5.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-skip/player-skip-6.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-skip/player-skip-7.png"
+  }
+  images {
+    image: "/assets/png/sprites/player/player-skip/player-skip-8.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 12
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+margin: 0
+extrude_borders: 1
+inner_padding: 0

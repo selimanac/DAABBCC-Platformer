@@ -1,0 +1,241 @@
+local fsm = require "scripts.statemachine"
+
+local hero_id
+local hero_pos = vmath.vector3()
+local hero_size = vmath.vector3()
+local v_down = vmath.vector3(0, 1, 0)
+local v_up = vmath.vector3(0, -1, 0)
+local v_right = vmath.vector3(1, 0, 0)
+local v_left = vmath.vector3(-1, 0, 0)
+local _normal = vmath.vector3()
+
+local is_grounded = true
+local is_walking =false;
+
+local move_direction = 0
+local prev_direction = -1
+
+
+local old_velocity = vmath.vector3()
+local acceleration = vmath.vector3(10.0, 0.1, 0)
+local velocity = vmath.vector3(0, 0, 0)
+local max_velocity = vmath.vector3(15, 15, 0)
+
+local velocity_limit = 0
+
+local _jump = hash("_JUMP")
+local _move_left = hash("_MOVELEFT")
+local _move_right = hash("_MOVERIGHT")
+
+
+
+--[[ STATES ]]--
+local function set_state(self, event, from, to, eventmsg )
+	--velocity = vmath.vector3()
+end
+
+local function do_standing(self, event, from, to, eventmsg )
+	is_walking = false
+	velocity = vmath.vector3()
+	is_grounded = true
+	msg.post("#sprite", "play_animation", {id = hash("player-idle")})
+end
+
+local function do_walking(self, event, from, to, eventmsg )
+	
+	velocity = vmath.vector3()
+	is_walking = true
+	is_grounded = true
+	sprite.set_hflip("#sprite", move_direction > 0)
+	if prev_direction ~= move_direction then
+		acceleration.x = acceleration.x * -1
+		max_velocity.x = max_velocity.x * -1	
+	end
+	prev_direction = move_direction
+	msg.post("#sprite", "play_animation", {id = hash("player-skip")})	
+end
+
+local function stop_walking(self, event, from, to, eventmsg )
+	
+end
+
+local function do_jumping(self, event, from, to, eventmsg )
+	is_jumping = true
+	is_grounded = false	
+	msg.post("#sprite", "play_animation", {id = hash("player-jump")})
+end
+
+local function do_falling(self, event, from, to, eventmsg )
+	
+	is_jumping = false
+	is_grounded = false	
+	msg.post("#sprite", "play_animation", {id = hash("player-fall")})
+end
+
+
+function init(self)
+	msg.post('.', 'acquire_input_focus')
+	hero_pos = go.get_position()
+	hero_size = go.get("#sprite", "size")
+
+	herofsm = fsm.create({
+		events = {
+			{
+				name = "IDLE",
+				from = {"none","walking","falling"},
+				to = "standing"
+			},
+			{
+				name = "WALK",
+				from = {"standing","falling"},
+				to = "walking"
+			},
+			{
+				name = "FALL",
+				from = {"jumping"},
+				to = "falling"
+			},
+			{
+				name = "JUMP",
+				from = {"standing","walking"},
+				to = "jumping"
+			}
+		},
+		callbacks = {
+			on_state_change = set_state,
+			on_enter_standing = do_standing,
+			on_leave_walking = stop_walking,
+			on_enter_walking = do_walking,
+			on_enter_jumping = do_jumping,
+			on_enter_falling = do_falling,
+		}
+	})
+end
+
+function final(self)
+    -- Add finalization code here
+    -- Remove this function if not needed
+end
+
+function update(self, dt)
+	
+	old_velocity = velocity; 
+	velocity_limit = vmath.dot(velocity, max_velocity)
+	
+
+	if herofsm:is("walking") and velocity_limit < 200 and velocity_limit > -200 then 
+		velocity.x = (velocity.x - move_direction) + acceleration.x * dt;    	
+	end
+
+	if herofsm:is("jumping") and velocity_limit < 500  then
+		velocity = (velocity - v_up) + acceleration * dt; 
+	else
+		herofsm:FALL()
+	end 
+
+	if  herofsm:is("falling") then
+		velocity = (velocity - v_down) + acceleration * dt; 
+	end
+
+	if is_grounded == false and  herofsm.current ~= "jumping" then 
+		if herofsm.current ~= "falling"   then
+			herofsm:JUMP()
+			herofsm:FALL()
+		end 
+	end
+
+	hero_pos = hero_pos + (old_velocity + velocity) * 6.5 * dt; 
+
+	daabbcc.updateRect("world", hero_id, hero_pos.x, hero_pos.y, 16, hero_size.y)
+
+
+	local _result = daabbcc.queryID("world", hero_id)
+
+	if #_result > 0 then
+
+		for i = 1, #_result do
+			local count, depth, mnormal, contact_points = daabbcc.checkManifold("world", hero_id, _result[i])
+			pprint(depth)
+			if  mnormal.y == -1 and herofsm.current ~= "jumping"  then
+					if count ~= nil then 
+						is_grounded = true 		
+						if is_walking == true then
+							herofsm:WALK()
+						else
+							herofsm:IDLE()
+						end
+						_normal.x = mnormal.x
+						_normal.y = mnormal.y
+
+						if mnormal.y ~= 0 then
+							hero_pos.y = hero_pos.y - (depth * mnormal.y)
+						end
+						if mnormal.x ~= 0 then
+							hero_pos.x = hero_pos.x - (depth * mnormal.x)
+						end
+					end
+				end
+			end
+		else
+			is_grounded = false
+
+		end
+
+		go.set_position(hero_pos)
+		velocity_limit = vmath.vector3()
+	end
+
+	function on_message(self, message_id, message, sender)
+
+		if message_id== hash("set_hero") then 
+			hero_id = daabbcc.insertRect("world", hero_pos.x, hero_pos.y, hero_size.x/2,hero_size.y)
+			print("Hero ID: " , hero_id)
+		end
+	end
+
+	function on_input(self, action_id, action)
+
+		if action_id == _jump and action.pressed  then		
+			herofsm:JUMP()
+		end
+
+		if action_id == _jump and action.released then
+			herofsm:FALL()
+		end
+
+		if action_id == _move_right and action.repeated and is_grounded == true   then		
+			move_direction = -1
+			herofsm:WALK() 		
+		end 
+
+		if action_id == _move_right and action.released    then   
+			is_walking = false		
+			if is_grounded == true then 
+				herofsm:IDLE() 
+			end 
+		end
+
+		if action_id == _move_left and action.repeated and is_grounded == true  then		
+			move_direction = 1
+			herofsm:WALK()	
+
+		end 
+
+		if action_id == _move_left and action.released    then
+			is_walking = false
+			if is_grounded == true then 
+				herofsm:IDLE() 
+			end 
+		end
+
+	end
+
+	function on_reload(self)
+        -- Add reload-handling code here
+        -- Remove this function if not needed
+    end
+
+    
+
+    
+
