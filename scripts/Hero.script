@@ -119,9 +119,14 @@ function final(self)
     -- Add finalization code here
     -- Remove this function if not needed
 end
+local function hit_enemy(enemy_id)
+
+	velocity = (velocity - v_up) - acceleration * 0.3; 
+end 
+
 
 local function collectStar(star_id) 
-	daabbcc.removeAABB("world",star_id)
+	daabbcc.removeAABB("World",star_id)
 
 	local go_name = "/"..controller.world["collectables"][star_id]["name"]
 	local go_pos  = controller.world["collectables"][star_id]["position"]
@@ -131,7 +136,7 @@ local function collectStar(star_id)
 
 	controller.world["collectables"][star_id] = nil
 
-	go.animate(go_name, "position", go.PLAYBACK_ONCE_FORWARD, go_to, go.EASING_INSINE, 0.4, 0,function() go.delete(go_name)end)
+go.animate(go_name, "position", go.PLAYBACK_ONCE_FORWARD, go_to, go.EASING_INSINE, 0.4, 0,function() go.delete(go_name)end)
 	--go.animate(go_sprite, "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTINSINE, 0.5, 0,function() go.delete(go_name)end)
 	
 end
@@ -171,25 +176,35 @@ function update(self, dt)
 	hero_pos = hero_pos + (old_velocity + velocity) * 6.5 * dt; 
 
 	
-	daabbcc.updateRect("world",hero_id, hero_pos.x , hero_pos.y, hero_size.x, hero_size.y)
+	daabbcc.updateRect("World",hero_id, hero_pos.x , hero_pos.y, hero_size.x, hero_size.y)
 
-	local query_result = daabbcc.queryID("world", hero_id)
+	local query_result = daabbcc.queryID("World", hero_id)
 
 	if #query_result > 0 then
 
 		for i = 1, #query_result do
 			local result_id = query_result[i]
+
+			--Check if collide with collectables
 			if controller.world["collectables"][result_id] ~= nil then 
-					collectStar(result_id )
+				collectStar(result_id )
 				break	
 			end
 
-			local count, depth, mnormal, contact_points = daabbcc.checkManifold("world", hero_id, result_id)	
-				
+			-- Check collision manifold
+			local count, depth, mnormal, contact_points = daabbcc.checkManifold("World", hero_id, result_id)	
+
+			--Check if collide with enemy
+			if controller.world["enemys"][result_id] ~= nil then 
+				hit_enemy(result_id)
+			end
+
 			--[[Terrible way of handling one-side platform :) 
 				(depth * mnormal.y) < 0 and (depth * mnormal.y) > -7.5 and
 			]]--
-			if (depth * mnormal.y) < 0 and (depth * mnormal.y) > -8 and mnormal.y == -1 and herofsm.current ~= "jumping"  then	
+			--if (depth * mnormal.y) < 0 and (depth * mnormal.y) > -8 and mnormal.y == -1 and herofsm.current ~= "jumping"  then	
+			pprint(mnormal.x)
+			if mnormal.y == -1 and herofsm.current ~= "jumping"  then	
 				--print( depth * mnormal.y)
 				--[[Handle platform ]]--
 				if count ~= nil then 
@@ -210,9 +225,9 @@ function update(self, dt)
 					end
 				end
 
-
 			end
-		end
+
+		end -- loop end 
 	else
 		is_grounded = false
 
@@ -224,7 +239,7 @@ end
 
 function on_message(self, message_id, message, sender)
 	if message_id== hash("set_hero") then 
-		hero_id = daabbcc.insertRect("world", hero_pos.x, hero_pos.y, hero_size.x,hero_size.y)
+		hero_id = daabbcc.insertRect("World", hero_pos.x, hero_pos.y, hero_size.x,hero_size.y)
 		print("Hero ID: " , hero_id)
 	end
 end

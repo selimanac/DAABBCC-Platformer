@@ -14,15 +14,14 @@ local function insetRects (_type, _count)
 		_pos = go.get_position(_name)
 		_sprite_url = msg.url(_name.."#sprite")
 		_size = go.get(_sprite_url, "size")
-		local id = controller.addRect("world",_pos, _size, _type, _name, _sprite_url )		
+		local id = controller.addRect("World",_pos, _size, _type, _name, _sprite_url )	
+
 	end	
 end
 
 
 function init(self)
-	--msg.post("@system:", "set_vsync", { swap_interval = 1 } )
 	msg.post('.', 'acquire_input_focus')
-
 	msg.post("@render:", "clear_color", { color = vmath.vector4(75/255, 57/255, 22/255, 0) } )
 	
 	--defos.set_window_title("DAABBCC Platformer")
@@ -32,14 +31,15 @@ function init(self)
 	--x, y, w, h = defos.get_view_size()
 	--defos.set_cursor_pos(w/2, h/2)
 
-	daabbcc.createTree("world", 2, 0.0, 100)
+	--daabbcc.createTree("world", 2, 0.0, 100)
 
-	insetRects("ground", 6)
+	insetRects("ground", 8)
 	insetRects("collectable", 15)
-	
-	-- Hero
-	
+		
+	-- Hero	
 	msg.post(hero_msg, "set_hero")
+
+
 end
 
 
