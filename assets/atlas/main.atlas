@@ -8,12 +8,6 @@ images {
   image: "/assets/tiles/tests.png"
 }
 images {
-  image: "/assets/tiles/tests10.png"
-}
-images {
-  image: "/assets/tiles/tests11.png"
-}
-images {
   image: "/assets/tiles/tests2.png"
 }
 images {
@@ -23,22 +17,34 @@ images {
   image: "/assets/tiles/tests4.png"
 }
 images {
-  image: "/assets/tiles/tests5.png"
-}
-images {
-  image: "/assets/tiles/tests6.png"
-}
-images {
-  image: "/assets/tiles/tests7.png"
-}
-images {
   image: "/assets/tiles/tests8.png"
 }
 images {
-  image: "/assets/tiles/tests9.png"
+  image: "/assets/png/back.png"
 }
 images {
-  image: "/assets/png/back.png"
+  image: "/assets/tiles/tests10.png"
+}
+images {
+  image: "/assets/tiles/tests11.png"
+}
+images {
+  image: "/assets/tiles/tests12.png"
+}
+images {
+  image: "/assets/tiles/tests13.png"
+}
+images {
+  image: "/assets/png/sprites/misc/hud/hud-1.png"
+}
+images {
+  image: "/assets/png/sprites/misc/hud/hud-2.png"
+}
+images {
+  image: "/assets/png/sprites/misc/hud/hud-3.png"
+}
+images {
+  image: "/assets/png/sprites/misc/hud/hud-4.png"
 }
 animations {
   id: "player-idle"

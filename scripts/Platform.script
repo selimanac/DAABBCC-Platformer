@@ -1,0 +1,68 @@
+local controller = require "scripts.controller"
+
+local platform_ids = 1
+local speed = 40 --speed of the enemy
+local distance = 100
+
+go.property("position", vmath.vector3())
+go.property("direction", 1)
+go.property("horizantal", true)
+
+
+function init(self)
+	-- Platform settings
+	self.position = go.get_position()
+	--self.direction = 1
+	self.size = go.get("#sprite", "size")
+	self.platform_id = platform_ids --increase with duplicate
+	self.name = "platform"..self.platform_id 
+	self.sprite_url = msg.url(self.name.."#sprite")
+	
+
+
+	if self.horizantal then
+		self.movement =  self.position.y	
+	else 
+		self.movement =  self.position.x
+	end
+
+	self.start_pos  =self.movement
+	self.target_pos = self.movement+distance
+
+	--Add platform to the World Tree
+	self.world_id = controller.addRect("World",self.position, self.size, "platform", self.name, self.sprite_url )	
+
+	platform_ids = platform_ids + 1
+end
+
+local function flip(self)
+	self.direction = (self.direction == -1) and 1 or -1	
+end
+
+function update(self, dt)
+	
+	if self.horizantal then
+		if self.position.y >= self.target_pos and self.direction == 1 then
+			flip(self)
+		elseif self.position.y <= self.start_pos and self.direction == -1 then
+			flip(self)
+		end
+
+		self.position = vmath.vector3(self.position.x,self.position.y+(speed*dt)*self.direction,self.position.z)
+	else
+		if self.position.x >= self.target_pos and self.direction == 1 then
+			flip(self)
+		elseif self.position.x <= self.start_pos and self.direction == -1 then
+			flip(self)
+		end
+
+		self.position = vmath.vector3(self.position.x+(speed*dt)*self.direction,self.position.y,self.position.z)
+	end
+	--Update enemy position(AABB) in tree
+	daabbcc.updateRect("World",self.world_id,self.position.x, self.position.y,self.size.x, self.size.y )
+
+	
+	go.set_position(self.position)
+
+end
+

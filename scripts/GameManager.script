@@ -43,7 +43,7 @@ function init(self)
 	-- Hero	
 	msg.post(hero_msg, "set_hero")
 	
-
+	controller.play_sfx("music", 0.3)
 end
 
 

@@ -1,5 +1,7 @@
 local M={}
 
+local sound_controller =  msg.url("main" , "/sound_fx", "SoundGate")
+
 M.world = {}
 local world =  M.world
 
@@ -21,6 +23,12 @@ end
 function M.removeFromTree(_name,_id)
 	table.remove(M.world, _id)
 	daabbcc.removeAABB("particles",_id)
+end
+
+
+function M.play_sfx(sound_fx, fx_gain)
+	fx_gain = fx_gain or 1.0
+	msg.post(sound_controller, "play_gated_sound", { soundcomponent = "/sound_fx#"..sound_fx, gain = fx_gain })
 end
 
 return M

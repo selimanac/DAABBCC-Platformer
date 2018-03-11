@@ -13,6 +13,7 @@ local _normal = vmath.vector3()
 local is_grounded = false
 local is_walking = false;
 local is_from_bottom = false
+local is_on_platform = false
 
 local move_direction = -1
 local prev_direction = -1
@@ -21,7 +22,7 @@ local prev_direction = -1
 local old_velocity = vmath.vector3()
 local acceleration = vmath.vector3(10, 0, 0)
 local velocity = vmath.vector3(0, 0, 0)
-local max_velocity = vmath.vector3(15, 15, 0)
+local max_velocity = vmath.vector3(17, 15, 0)
 
 local velocity_limit = 0
 
@@ -30,6 +31,8 @@ local _move_left = hash("_MOVELEFT")
 local _move_right = hash("_MOVERIGHT")
 
 local query_result = {}
+
+
 
 --[[ STATES ]]--
 local function set_state(self, event, from, to, eventmsg )
@@ -60,7 +63,7 @@ local function stop_walking(self, event, from, to, eventmsg )
 end
 
 local function do_jumping(self, event, from, to, eventmsg )
-
+	controller.play_sfx("jump", 1)
 	is_grounded = false	
 	msg.post("#sprite", "play_animation", {id = hash("player-jump")})
 end
@@ -108,7 +111,7 @@ function init(self)
 			on_enter_jumping = do_jumping,
 			on_enter_falling = do_falling,
 		}
-	})	
+	})		
 end
 
 function final(self)
@@ -116,21 +119,22 @@ end
 
 local function hit_enemy(enemy_id, _normal)	
 	if _normal.x == 0 and _normal.y == -1 and  herofsm:is("falling") then
-		
+		controller.play_sfx("slug-die", 1)
 		local go_name = "/"..controller.world["enemys"][enemy_id]["name"]
 		local go_pos  = go.get_position(go_name)
 		msg.post(go_name, "enemy_death")
 
 		controller.world["enemys"][enemy_id] = nil
-		--go.delete(go_name)
-		elseif herofsm.current ~= "jumping" then
 
+		elseif herofsm.current ~= "jumping" then
+			controller.play_sfx("hurt", 1)
 			velocity = (velocity + v_up) - acceleration * (-1.3* (_normal.x * move_direction) ); 
 		end
 	end 
 
 
 	local function collectStar(star_id) 
+		controller.play_sfx("collect", 1)
 		daabbcc.removeAABB("World",star_id)
 
 		local go_name = "/"..controller.world["collectables"][star_id]["name"]
@@ -172,11 +176,12 @@ function update(self, dt)
 		herofsm:FALL()
 	end 
 
-	if  herofsm:is("falling") then
+
+	if herofsm:is("falling") and is_on_platform == false then
 		velocity = (velocity + v_down) + acceleration * dt; 
 	end
 
-	if is_grounded == false and  herofsm.current ~= "jumping" then 
+	if is_grounded == false and herofsm.current ~= "jumping" then 
 		if herofsm.current ~= "falling"   then
 			herofsm:JUMP()
 			herofsm:FALL()
@@ -194,6 +199,7 @@ function update(self, dt)
 	if #query_result > 0 then
 
 		for i = 1, #query_result do
+			
 			local result_id = query_result[i]
 
 			--Check if collide with collectables
@@ -216,16 +222,47 @@ function update(self, dt)
 			end  
 
 			-- If hero hits walll 
-			if mnormal.y == 0 and (mnormal.x == 1 or mnormal.x == -1) and is_from_bottom == false then								
+			if mnormal.y == 0 and (mnormal.x == 1 or mnormal.x == -1) and is_from_bottom == false then	
+				controller.play_sfx("drop", 1)							
 				if herofsm.current ~= "jumping" then
 					velocity = (velocity + v_up) - acceleration * (-1.3* (_normal.x * move_direction) ) ; 
 				end
 				fix_hero_position(mnormal, depth)
 			end
 
+			--Check if collide with platform
+			if controller.world["platforms"][result_id] ~= nil  then 		
+				if mnormal.y == -1 and mnormal.x == 0 and herofsm.current ~= "jumping" and is_from_bottom == false then	
+					--is_grounded = true 	
+					is_on_platform = true
+					if is_walking == true then
+						herofsm:WALK()
+					else
+						herofsm:IDLE()
+					end
+					
+					local fv = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "position")
+					local d = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "direction")
+					local h = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "horizantal")
+
+					fix_hero_position(mnormal, depth)
+
+					-- fake position	
+					if h then
+						hero_pos.y  = fv.y + (hero_size.y-9)
+						elseif  herofsm.current ~= "walking"   then
+
+							--hero_pos.x  = hero_pos.x - fv.x 
+						--velocity.x = (velocity.x - move_direction) +0.001 * dt;  
+					end
+				end
+			end -- Ground check end
+
+
 			--Check if collide with ground
 			if controller.world["grounds"][result_id] ~= nil then 		
 				if mnormal.y == -1 and mnormal.x == 0 and herofsm.current ~= "jumping" and is_grounded==false and is_from_bottom == false then	
+					controller.play_sfx("drop", 1)
 					is_grounded = true 	
 					if is_walking == true then
 						herofsm:WALK()
@@ -240,8 +277,10 @@ function update(self, dt)
 		end -- for loop end 
 
 	else -- else if there is no collision
+	
 	is_grounded = false
 	is_from_bottom = false
+	is_on_platform = false
 end
 
 	-- set new position
