@@ -4,21 +4,22 @@ local controller = require "scripts.controller"
 local hero_id
 local hero_pos = vmath.vector3()
 local hero_size = vmath.vector3()
-local v_down = vmath.vector3(0, 1, 0)
-local v_up = vmath.vector3(0, -1, 0)
-local v_right = vmath.vector3(1, 0, 0)
-local v_left = vmath.vector3(-1, 0, 0)
+local v_down = vmath.vector3(0, -1, 0) --(0, -1, 0).
+local v_up = vmath.vector3(0, 1, 0) -- (0, 1, 0).		
+local v_right = vmath.vector3(1, 0, 0) --(1, 0, 0).
+local v_left = vmath.vector3(-1, 0, 0)--(-1, 0, 0).
 local _normal = vmath.vector3()
 
-local is_grounded = true
-local is_walking =false;
+local is_grounded = false
+local is_walking = false;
+local is_from_bottom = false
 
-local move_direction = 0
+local move_direction = -1
 local prev_direction = -1
 
 
 local old_velocity = vmath.vector3()
-local acceleration = vmath.vector3(10.0, 0.1, 0)
+local acceleration = vmath.vector3(10, 0, 0)
 local velocity = vmath.vector3(0, 0, 0)
 local max_velocity = vmath.vector3(15, 15, 0)
 
@@ -32,7 +33,7 @@ local query_result = {}
 
 --[[ STATES ]]--
 local function set_state(self, event, from, to, eventmsg )
-	--velocity = vmath.vector3()
+
 end
 
 local function do_standing(self, event, from, to, eventmsg )
@@ -42,8 +43,7 @@ local function do_standing(self, event, from, to, eventmsg )
 	msg.post("#sprite", "play_animation", {id = hash("player-idle")})
 end
 
-local function do_walking(self, event, from, to, eventmsg )
-	
+local function do_walking(self, event, from, to, eventmsg )	
 	velocity = vmath.vector3()
 	is_walking = true
 	is_grounded = true
@@ -57,18 +57,15 @@ local function do_walking(self, event, from, to, eventmsg )
 end
 
 local function stop_walking(self, event, from, to, eventmsg )
-	
 end
 
 local function do_jumping(self, event, from, to, eventmsg )
-	is_jumping = true
+
 	is_grounded = false	
 	msg.post("#sprite", "play_animation", {id = hash("player-jump")})
 end
 
 local function do_falling(self, event, from, to, eventmsg )
-	
-	is_jumping = false
 	is_grounded = false	
 	msg.post("#sprite", "play_animation", {id = hash("player-fall")})
 end
@@ -78,7 +75,8 @@ function init(self)
 	msg.post('.', 'acquire_input_focus')
 	hero_pos = go.get_position()
 	hero_size = go.get("#sprite", "size")
-	hero_size.x = 5
+	hero_size.x = 5 -- manipulate the hero width
+
 	herofsm = fsm.create({
 		events = {
 			{
@@ -110,64 +108,76 @@ function init(self)
 			on_enter_jumping = do_jumping,
 			on_enter_falling = do_falling,
 		}
-	})
-
-
+	})	
 end
 
 function final(self)
-    -- Add finalization code here
-    -- Remove this function if not needed
 end
-local function hit_enemy(enemy_id)
 
-	velocity = (velocity - v_up) - acceleration * 0.3; 
+local function hit_enemy(enemy_id, _normal)	
+	if _normal.x == 0 and _normal.y == -1 and  herofsm:is("falling") then
+		
+		local go_name = "/"..controller.world["enemys"][enemy_id]["name"]
+		local go_pos  = go.get_position(go_name)
+		msg.post(go_name, "enemy_death")
+
+		controller.world["enemys"][enemy_id] = nil
+		--go.delete(go_name)
+		elseif herofsm.current ~= "jumping" then
+
+			velocity = (velocity + v_up) - acceleration * (-1.3* (_normal.x * move_direction) ); 
+		end
+	end 
+
+
+	local function collectStar(star_id) 
+		daabbcc.removeAABB("World",star_id)
+
+		local go_name = "/"..controller.world["collectables"][star_id]["name"]
+		local go_pos  = controller.world["collectables"][star_id]["position"]
+		local go_sprite = controller.world["collectables"][star_id]["sprite"]
+		local go_to = go_pos
+		go_to.y= go_to.y+30
+
+		controller.world["collectables"][star_id] = nil
+
+	go.animate(go_name, "position", go.PLAYBACK_ONCE_FORWARD, go_to, go.EASING_INSINE, 0.4, 0,function() go.delete(go_name)end)
+end
+
+local function fix_hero_position(mnormal,depth )
+
+	_normal.x = mnormal.x
+	_normal.y = mnormal.y
+
+	if mnormal.y ~= 0 then
+		hero_pos.y = hero_pos.y - (depth * mnormal.y)
+	end
+	if mnormal.x ~= 0 then
+		hero_pos.x = hero_pos.x - (depth * mnormal.x)
+	end
 end 
-
-
-local function collectStar(star_id) 
-	daabbcc.removeAABB("World",star_id)
-
-	local go_name = "/"..controller.world["collectables"][star_id]["name"]
-	local go_pos  = controller.world["collectables"][star_id]["position"]
-	local go_sprite = controller.world["collectables"][star_id]["sprite"]
-	local go_to = go_pos
-	go_to.y= go_to.y+30
-
-	controller.world["collectables"][star_id] = nil
-
-go.animate(go_name, "position", go.PLAYBACK_ONCE_FORWARD, go_to, go.EASING_INSINE, 0.4, 0,function() go.delete(go_name)end)
-	--go.animate(go_sprite, "tint.w", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_OUTINSINE, 0.5, 0,function() go.delete(go_name)end)
-	
-end
 
 function update(self, dt)
 	
 	old_velocity = velocity; 
 	velocity_limit = vmath.dot(velocity, max_velocity)
 	
-
 	if herofsm:is("walking") and velocity_limit < 200 and velocity_limit > -200 then 
 		velocity.x = (velocity.x - move_direction) + acceleration.x * dt;    	
 	end
 
-	if herofsm:is("jumping") and velocity_limit < 500  then
-		velocity = (velocity - v_up) + acceleration * dt; 
-	else
+	if herofsm:is("jumping") and velocity_limit < 450  then
+		velocity = (velocity + v_up) + acceleration * dt; 
+	else 
 		herofsm:FALL()
 	end 
 
 	if  herofsm:is("falling") then
-		velocity = (velocity - v_down) + acceleration * dt; 
+		velocity = (velocity + v_down) + acceleration * dt; 
 	end
 
 	if is_grounded == false and  herofsm.current ~= "jumping" then 
 		if herofsm.current ~= "falling"   then
-			--[[
-
-			acceleration.x = 0
-			max_velocity.x = 0
-			]]--
 			herofsm:JUMP()
 			herofsm:FALL()
 		end 
@@ -175,9 +185,10 @@ function update(self, dt)
 
 	hero_pos = hero_pos + (old_velocity + velocity) * 6.5 * dt; 
 
-	
+	-- Update hero position in tree
 	daabbcc.updateRect("World",hero_id, hero_pos.x , hero_pos.y, hero_size.x, hero_size.y)
 
+	-- Query the tree for possible collisions
 	local query_result = daabbcc.queryID("World", hero_id)
 
 	if #query_result > 0 then
@@ -196,57 +207,59 @@ function update(self, dt)
 
 			--Check if collide with enemy
 			if controller.world["enemys"][result_id] ~= nil then 
-				hit_enemy(result_id)
+				hit_enemy(result_id,mnormal)	
 			end
 
-			--[[Terrible way of handling one-side platform :) 
-				(depth * mnormal.y) < 0 and (depth * mnormal.y) > -7.5 and
-			]]--
-			--if (depth * mnormal.y) < 0 and (depth * mnormal.y) > -8 and mnormal.y == -1 and herofsm.current ~= "jumping"  then	
-			pprint(mnormal.x)
-			if mnormal.y == -1 and herofsm.current ~= "jumping"  then	
-				--print( depth * mnormal.y)
-				--[[Handle platform ]]--
-				if count ~= nil then 
-					is_grounded = true 		
+			-- Check if collision start from bottom
+			if mnormal.y == 1 and mnormal.x == 0 then
+				is_from_bottom = true
+			end  
+
+			-- If hero hits walll 
+			if mnormal.y == 0 and (mnormal.x == 1 or mnormal.x == -1) and is_from_bottom == false then								
+				if herofsm.current ~= "jumping" then
+					velocity = (velocity + v_up) - acceleration * (-1.3* (_normal.x * move_direction) ) ; 
+				end
+				fix_hero_position(mnormal, depth)
+			end
+
+			--Check if collide with ground
+			if controller.world["grounds"][result_id] ~= nil then 		
+				if mnormal.y == -1 and mnormal.x == 0 and herofsm.current ~= "jumping" and is_grounded==false and is_from_bottom == false then	
+					is_grounded = true 	
 					if is_walking == true then
 						herofsm:WALK()
 					else
 						herofsm:IDLE()
 					end
-					_normal.x = mnormal.x
-					_normal.y = mnormal.y
-
-					if mnormal.y ~= 0 then
-						hero_pos.y = hero_pos.y - (depth * mnormal.y)
-					end
-					if mnormal.x ~= 0 then
-						hero_pos.x = hero_pos.x - (depth * mnormal.x)
-					end
+					--Fix hero position
+					fix_hero_position(mnormal, depth)
 				end
+			end -- Ground check end
 
-			end
+		end -- for loop end 
 
-		end -- loop end 
-	else
-		is_grounded = false
+	else -- else if there is no collision
+	is_grounded = false
+	is_from_bottom = false
+end
 
-	end
-
+	-- set new position
 	go.set_position(hero_pos)
 	velocity_limit = vmath.vector3()
 end
 
+
 function on_message(self, message_id, message, sender)
+	-- Initial setup
 	if message_id== hash("set_hero") then 
 		hero_id = daabbcc.insertRect("World", hero_pos.x, hero_pos.y, hero_size.x,hero_size.y)
-		print("Hero ID: " , hero_id)
 	end
 end
 
 function on_input(self, action_id, action)
 
-	if action_id == _jump and action.pressed  then		
+	if action_id == _jump and action.pressed  then			
 		herofsm:JUMP()
 	end
 
@@ -269,7 +282,6 @@ function on_input(self, action_id, action)
 	if action_id == _move_left and action.repeated and is_grounded == true  then		
 		move_direction = 1
 		herofsm:WALK()	
-
 	end 
 
 	if action_id == _move_left and action.released    then
@@ -278,15 +290,10 @@ function on_input(self, action_id, action)
 			herofsm:IDLE() 
 		end 
 	end
-
 end
 
-function on_reload(self)
-        -- Add reload-handling code here
-        -- Remove this function if not needed
-    end
 
-    
 
-    
+
+
 

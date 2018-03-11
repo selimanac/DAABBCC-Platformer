@@ -1,7 +1,7 @@
 
 local controller = require "scripts.controller"
 
-local debug_color =  vmath.vector4(1, 1, 1, 1) 
+--local debug_color =  vmath.vector4(1, 1, 1, 1) 
 local enemy_ids = 1
 local speed = 40 --speed of the enemy
 
@@ -11,9 +11,11 @@ function init(self)
 	self.position = go.get_position()
 	self.direction = -1
 	self.size = go.get("#sprite", "size")
+
 	self.enemy_id = enemy_ids --increase with duplicate
 	self.name = "enemy"..self.enemy_id 
 	self.sprite_url = msg.url(self.name.."#sprite")
+	self.is_death = false
 
 	-- Enemy ray defaults
 	self.ray_position= self.position 
@@ -31,26 +33,29 @@ function init(self)
 	self.ray_id = daabbcc.createRay(self.ray_position .x,self.ray_position .y, self.ray_rirection.x, self.ray_rirection.y, self.ray_distance)
 
 	 --increase with duplicate
-	enemy_ids = enemy_ids + 1
+	 enemy_ids = enemy_ids + 1
 
-end
+	end
 
-function final(self)
-	-- Add finalization code here
-	-- Remove this function if not needed
-end
+	function final(self)
+		--daabbcc.removeAABB("World",self.world_id)
+	end
 
-local function flip_enemy(self)
+	local function flip_enemy(self)
 		self.direction = 	(self.direction == -1) and 1 or -1
 		sprite.set_hflip("#sprite", self.direction > -1)
 		self.ray_rirection = vmath.vector3(self.direction, -1, 0)	
-end
+	end
 
 
-function update(self, dt)
+	function update(self, dt)
 
-	self.position = vmath.vector3(self.position.x+(speed*dt)*self.direction,self.position.y,self.position.z)
-	self.ray_position = self.position
+		if self.is_death then			
+			return
+		end
+
+		self.position = vmath.vector3(self.position.x+(speed*dt)*self.direction,self.position.y,self.position.z)
+		self.ray_position = self.position
 
 	--Update enemy position(AABB) in tree
 	daabbcc.updateRect("World",self.world_id,self.position.x, self.position.y,self.size.x, self.size.y )
@@ -59,7 +64,7 @@ function update(self, dt)
 	daabbcc.updateRay( self.ray_id,self.ray_position.x, self.ray_position.y, self.ray_rirection.x, self.ray_rirection.y, self.ray_distance)
 
 	-- Raycast to ground
-	local ray_hit,ray_end, impact, ray_normal = daabbcc.rayCastToAABB("World", self.ray_id , self.platform_id)
+	local ray_hit, ray_end, impact, ray_normal = daabbcc.rayCastToAABB("World", self.ray_id , self.platform_id)
 
 	-- End point of the ray
 	local ray_end_point = vmath.vector3(ray_end.x,ray_end.y,0)
@@ -67,24 +72,33 @@ function update(self, dt)
 	-- If there is a hit
 	if ray_hit == 1 then
 		ray_end_point = vmath.vector3(impact.x,impact.y,1)
-		debug_color =  vmath.vector4(1, 0, 0, 1) 
+	--	debug_color =  vmath.vector4(1, 0, 0, 1) 
 	else 
-		debug_color =  vmath.vector4(1, 1, 1, 1) 
+	--	debug_color =  vmath.vector4(1, 1, 1, 1) 
 
 		-- If it is not colliding to ground, flip it.
 		flip_enemy(self)
 	end 
 
 	-- Draw debug line
-	msg.post("@render:", "draw_line", { start_point =self.ray_position, end_point = ray_end_point, color = debug_color } )
+	--msg.post("@render:", "draw_line", { start_point =self.ray_position, end_point = ray_end_point, color = debug_color } )
 	
 	-- Set new position
 	go.set_position(self.position)
 end
 
 function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Remove this function if not needed
+	if message_id== hash("enemy_death") then 
+		self.is_death = true
+		msg.post("#sprite", "play_animation", {id = hash("enemy-death")})
+		go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, self.position.y+20, go.EASING_INSINE, 0.4, 0)
+		daabbcc.removeAABB("World",self.world_id)
+	end
+
+
+	if message_id == hash("animation_done") then
+		go.delete()
+	end
 end
 
 function on_input(self, action_id, action)

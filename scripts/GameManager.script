@@ -1,5 +1,9 @@
 local controller = require "scripts.controller"
-local ground_count = 6
+
+
+
+go.property("ground_count", 9)
+go.property("star_count", 15)
 
 local hero_msg = msg.url("main", "/bunny", "Hero")
 
@@ -33,12 +37,12 @@ function init(self)
 
 	--daabbcc.createTree("world", 2, 0.0, 100)
 
-	insetRects("ground", 8)
-	insetRects("collectable", 15)
+	insetRects("ground", self.ground_count)
+	insetRects("collectable", self.star_count)
 		
 	-- Hero	
 	msg.post(hero_msg, "set_hero")
-
+	
 
 end
 

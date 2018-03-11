@@ -187,6 +187,31 @@ animations {
   flip_horizontal: 0
   flip_vertical: 0
 }
+animations {
+  id: "enemy-death"
+  images {
+    image: "/assets/png/sprites/misc/enemy-death/enemy-death-1.png"
+  }
+  images {
+    image: "/assets/png/sprites/misc/enemy-death/enemy-death-2.png"
+  }
+  images {
+    image: "/assets/png/sprites/misc/enemy-death/enemy-death-3.png"
+  }
+  images {
+    image: "/assets/png/sprites/misc/enemy-death/enemy-death-4.png"
+  }
+  images {
+    image: "/assets/png/sprites/misc/enemy-death/enemy-death-5.png"
+  }
+  images {
+    image: "/assets/png/sprites/misc/enemy-death/enemy-death-6.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 12
+  flip_horizontal: 0
+  flip_vertical: 0
+}
 margin: 0
 extrude_borders: 1
 inner_padding: 0
