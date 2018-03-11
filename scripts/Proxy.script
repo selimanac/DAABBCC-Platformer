@@ -1,0 +1,44 @@
+function init(self)
+	msg.post("/main#main", "load")
+end
+
+function final(self)
+	-- Add finalization code here
+	-- Remove this function if not needed
+end
+
+local function reload()
+	msg.post("/main#main", "load")
+end	
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash("proxy_loaded") then
+
+		msg.post(sender, "init")
+		msg.post(sender, "enable")
+		msg.post(sender, 'acquire_input_focus')
+
+	end
+
+	if message_id == hash("unload_level") then
+		local proxy = msg.url("/main#main")
+		msg.post(proxy, 'release_input_focus')
+		msg.post(proxy, "disable")
+		msg.post(proxy, "final")
+		msg.post(proxy, "unload")
+		elseif message_id == hash("proxy_unloaded") then
+			print( "Unloaded" )
+			reload()
+
+		end
+	end
+
+	function on_input(self, action_id, action)
+	-- Add input-handling code here
+	-- Remove this function if not needed
+end
+
+function on_reload(self)
+	-- Add reload-handling code here
+	-- Remove this function if not needed
+end

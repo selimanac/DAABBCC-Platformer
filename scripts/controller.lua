@@ -6,6 +6,7 @@ M.world = {}
 local world =  M.world
 
 
+
 function M.addRect(_name, _position,_size,_type, _go_name, _sprite_url)
 	local _id = daabbcc.insertRect(_name, _position.x , _position.y, _size.x, _size.y)
 	local sub_table_name = _type.."s"

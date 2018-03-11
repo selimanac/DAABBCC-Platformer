@@ -14,6 +14,7 @@ local is_grounded = false
 local is_walking = false;
 local is_from_bottom = false
 local is_on_platform = false
+local is_die = false
 
 local move_direction = -1
 local prev_direction = -1
@@ -32,7 +33,7 @@ local _move_right = hash("_MOVERIGHT")
 
 local query_result = {}
 
-
+go.property("dummy", 0)
 
 --[[ STATES ]]--
 local function set_state(self, event, from, to, eventmsg )
@@ -135,6 +136,7 @@ local function hit_enemy(enemy_id, _normal)
 
 	local function collectStar(star_id) 
 		controller.play_sfx("collect", 1)
+		
 		daabbcc.removeAABB("World",star_id)
 
 		local go_name = "/"..controller.world["collectables"][star_id]["name"]
@@ -159,10 +161,31 @@ local function fix_hero_position(mnormal,depth )
 	if mnormal.x ~= 0 then
 		hero_pos.x = hero_pos.x - (depth * mnormal.x)
 	end
-end 
+end
+
+local function reload()
+	
+	local proxy = msg.url("default", "/script", "Proxy")
+	msg.post(proxy,"unload_level")
+	print( "DIE" )
+end
+
+local function reload_start()
+controller.play_sfx("hero-die", 1)	
+	go.animate("#", "dummy", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR,0.5, 0, reload)
+
+
+	
+end  
 
 function update(self, dt)
+
 	
+	if hero_pos.y < -380 and is_die == false then
+		reload_start()
+		is_die = true
+		
+	end
 	old_velocity = velocity; 
 	velocity_limit = vmath.dot(velocity, max_velocity)
 	

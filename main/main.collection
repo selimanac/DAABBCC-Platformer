@@ -875,7 +875,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 846.0
+    x: 842.0
     y: 116.0
     z: 0.5
   }
@@ -915,7 +915,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 1084.0
+    x: 1070.0
     y: 116.0
     z: 0.5
   }
@@ -2433,7 +2433,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 965.0
+    x: 953.0
     y: -5.0
     z: 0.5
   }
@@ -2473,7 +2473,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 916.0
+    x: 908.0
     y: 40.0
     z: 0.5
   }
@@ -2513,7 +2513,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 1012.0
+    x: 1004.0
     y: 40.0
     z: 0.5
   }
@@ -2553,7 +2553,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 965.0
+    x: 957.0
     y: 40.0
     z: 0.5
   }
@@ -2631,7 +2631,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 782.0
+    x: 778.0
     y: 70.0
     z: 0.5
   }
@@ -2686,7 +2686,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 1020.0
+    x: 1006.0
     y: 70.0
     z: 0.5
   }

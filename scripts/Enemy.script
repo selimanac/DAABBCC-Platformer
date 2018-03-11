@@ -37,7 +37,11 @@ function init(self)
 	end
 
 	function final(self)
-		--daabbcc.removeAABB("World",self.world_id)
+		if self.is_death == false then
+			daabbcc.removeAABB("World",self.world_id)
+			daabbcc.removeRay(self.ray_id)
+			controller.world["enemys"][self.world_id] = nil
+		end 
 	end
 
 	local function flip_enemy(self)
@@ -73,7 +77,7 @@ function init(self)
 		ray_end_point = vmath.vector3(impact.x,impact.y,1)
 		
 	--	debug_color =  vmath.vector4(1, 0, 0, 1) 
-	else 
+else 
 	--	debug_color =  vmath.vector4(1, 1, 1, 1) 
 
 		-- If it is not colliding to ground, flip it.
@@ -93,6 +97,8 @@ function on_message(self, message_id, message, sender)
 		msg.post("#sprite", "play_animation", {id = hash("enemy-death")})
 		go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, self.position.y+20, go.EASING_INSINE, 0.4, 0)
 		daabbcc.removeAABB("World",self.world_id)
+		daabbcc.removeRay(self.ray_id)
+		controller.world["enemys"][self.world_id] = nil
 	end
 
 
