@@ -25,7 +25,8 @@ end
 function init(self)
 	msg.post('.', 'acquire_input_focus')
 	msg.post("@render:", "clear_color", { color = vmath.vector4(75/255, 57/255, 22/255, 0) } )
-	
+	controller.reset()	
+
 	--defos.set_window_title("DAABBCC Platformer")
 	--defos.toggle_fullscreen()
 	local pos = go.get_world_position("bunny")
@@ -37,12 +38,12 @@ function init(self)
 
 	insetRects("ground", self.ground_count)
 	insetRects("collectable", self.star_count)
-		
+
 	-- Hero	
 	msg.post(hero_msg, "set_hero")
 	
 	controller.play_sfx("music", 0.2)
-	
+	daabbcc.rebuildTree("World")
 end
 
 
@@ -58,30 +59,18 @@ function on_input(self, action_id, action)
 end
 
 function final(self)
+	--- Clean up the tree and table	
+	for k, v in pairs( controller.world["grounds"] ) do	
+		daabbcc.removeAABB("World", v["treeID"])
+	end
 
-	-- for i = 1, #controller.world["grounds"] do
-	-- 	local _id = controller.world["grounds"][i]["treeID"]
-		
-	-- 	daabbcc.removeAABB("World",_id)
-	-- end
+	for k, v in pairs( controller.world["collectables"] ) do	
+		daabbcc.removeAABB("World", v["treeID"])
+	end
 
-	-- for i = 1, #controller.world["collectables"] do
-	-- 	local _id = controller.world["collectables"][i]["treeID"]
-		
-	-- 	daabbcc.removeAABB("World",_id)
-	-- end
+	for k, v in pairs( controller.world["platforms"] ) do	
+		daabbcc.removeAABB("World", v["treeID"])
+	end
 
-	-- for i = 1, #controller.world["enemys"] do
-	-- 	local _id = controller.world["enemys"][i]["treeID"]
-		
-	-- 	daabbcc.removeAABB("World",_id)
-	-- end
-
-	-- for i = 1, #controller.world["platforms"] do
-	-- 	local _id = controller.world["platforms"][i]["treeID"]
-		
-	-- 	daabbcc.removeAABB("World",_id)
-	-- end
- 
 end
 

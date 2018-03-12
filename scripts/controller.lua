@@ -1,11 +1,8 @@
 local M={}
 
-local sound_controller =  msg.url("main" , "/sound_fx", "SoundGate")
-
 M.world = {}
 local world =  M.world
-
-
+local sound_controller =  msg.url("main" , "/sound_fx", "SoundGate")
 
 function M.addRect(_name, _position,_size,_type, _go_name, _sprite_url)
 	local _id = daabbcc.insertRect(_name, _position.x , _position.y, _size.x, _size.y)
@@ -26,10 +23,14 @@ function M.removeFromTree(_name,_id)
 	daabbcc.removeAABB("particles",_id)
 end
 
-
 function M.play_sfx(sound_fx, fx_gain)
-	fx_gain = fx_gain or 1.0
+	local fx_gain = fx_gain or 1.0
 	msg.post(sound_controller, "play_gated_sound", { soundcomponent = "/sound_fx#"..sound_fx, gain = fx_gain })
+end
+
+function M.reset( )
+	M.world = {}
+	world =  M.world
 end
 
 return M

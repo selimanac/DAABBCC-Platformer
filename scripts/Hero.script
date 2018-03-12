@@ -4,10 +4,10 @@ local controller = require "scripts.controller"
 local hero_id
 local hero_pos = vmath.vector3()
 local hero_size = vmath.vector3()
-local v_down = vmath.vector3(0, -1, 0) --(0, -1, 0).
-local v_up = vmath.vector3(0, 1, 0) -- (0, 1, 0).		
-local v_right = vmath.vector3(1, 0, 0) --(1, 0, 0).
-local v_left = vmath.vector3(-1, 0, 0)--(-1, 0, 0).
+local v_down = vmath.vector3(0, -1, 0) 
+local v_up = vmath.vector3(0, 1, 0) 
+local v_right = vmath.vector3(1, 0, 0) 
+local v_left = vmath.vector3(-1, 0, 0)
 local _normal = vmath.vector3()
 
 local is_grounded = false
@@ -15,6 +15,7 @@ local is_walking = false;
 local is_from_bottom = false
 local is_on_platform = false
 local is_die = false
+local is_platform_moving = false
 
 local move_direction = -1
 local prev_direction = -1
@@ -30,14 +31,13 @@ local velocity_limit = 0
 local _jump = hash("_JUMP")
 local _move_left = hash("_MOVELEFT")
 local _move_right = hash("_MOVERIGHT")
-
+local delta
 local query_result = {}
 
 go.property("dummy", 0)
 
 --[[ STATES ]]--
 local function set_state(self, event, from, to, eventmsg )
-
 end
 
 local function do_standing(self, event, from, to, eventmsg )
@@ -46,6 +46,12 @@ local function do_standing(self, event, from, to, eventmsg )
 	is_grounded = true
 	msg.post("#sprite", "play_animation", {id = hash("player-idle")})
 end
+
+local function stop_standing(self, event, from, to, eventmsg )
+	is_platform_moving = false	
+end
+
+
 
 local function do_walking(self, event, from, to, eventmsg )	
 	velocity = vmath.vector3()
@@ -107,6 +113,7 @@ function init(self)
 		callbacks = {
 			on_state_change = set_state,
 			on_enter_standing = do_standing,
+			on_leave_standing = stop_standing,
 			on_leave_walking = stop_walking,
 			on_enter_walking = do_walking,
 			on_enter_jumping = do_jumping,
@@ -116,6 +123,8 @@ function init(self)
 end
 
 function final(self)
+	daabbcc.removeAABB("World", hero_id)
+	
 end
 
 local function hit_enemy(enemy_id, _normal)	
@@ -163,28 +172,24 @@ local function fix_hero_position(mnormal,depth )
 	end
 end
 
-local function reload()
-	
+local function reload()	
 	local proxy = msg.url("default", "/script", "Proxy")
 	msg.post(proxy,"unload_level")
-	print( "DIE" )
 end
 
 local function reload_start()
-controller.play_sfx("hero-die", 1)	
+	controller.play_sfx("hero-die", 1)	
 	go.animate("#", "dummy", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR,0.5, 0, reload)
-
-
-	
 end  
 
 function update(self, dt)
+	if is_die == true then
+		return
+	end 
 
-	
 	if hero_pos.y < -380 and is_die == false then
-		reload_start()
-		is_die = true
-		
+		reload()
+		is_die = true	
 	end
 	old_velocity = velocity; 
 	velocity_limit = vmath.dot(velocity, max_velocity)
@@ -264,21 +269,26 @@ function update(self, dt)
 						herofsm:IDLE()
 					end
 					
-					local fv = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "position")
-					local d = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "direction")
-					local h = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "horizantal")
+					local platform_position = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "position")
+					local platform_direction = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "direction")
+					local platform_type = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "horizantal")
 
 					fix_hero_position(mnormal, depth)
 
 					-- fake position	
-					if h then
-						hero_pos.y  = fv.y + (hero_size.y-9)
-						elseif  herofsm.current ~= "walking"   then
+					if platform_type then
+						hero_pos.y  = platform_position.y + (hero_size.y-9) 
+						elseif herofsm.current ~= "walking" then
 
-							--hero_pos.x  = hero_pos.x - fv.x 
-						--velocity.x = (velocity.x - move_direction) +0.001 * dt;  
-					end
+							if is_platform_moving == false then
+								is_platform_moving = true	
+								delta =  (hero_pos.x - platform_position.x) 
+							end
+		
+					hero_pos.x = platform_position.x+delta
+
 				end
+			end
 			end -- Ground check end
 
 

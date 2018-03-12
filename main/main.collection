@@ -123,7 +123,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 25.0
+    x: 19.0
     y: 16.0
     z: 0.8
   }
@@ -303,7 +303,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 155.0
+    x: 65.0
     y: -33.0
     z: 0.5
   }
@@ -2393,7 +2393,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 205.0
+    x: 177.0
     y: 136.0
     z: 0.5
   }
@@ -2723,6 +2723,16 @@ embedded_instances {
   "    value: \"false\"\n"
   "    type: PROPERTY_TYPE_BOOLEAN\n"
   "  }\n"
+  "  properties {\n"
+  "    id: \"distance\"\n"
+  "    value: \"50.0\"\n"
+  "    type: PROPERTY_TYPE_NUMBER\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"speed\"\n"
+  "    value: \"40.0\"\n"
+  "    type: PROPERTY_TYPE_NUMBER\n"
+  "  }\n"
   "}\n"
   "embedded_components {\n"
   "  id: \"sprite\"\n"
@@ -2746,8 +2756,8 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 828.0
-    y: -169.0
+    x: 0.0
+    y: 103.0
     z: 0.5
   }
   rotation {
