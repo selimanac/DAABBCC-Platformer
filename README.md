@@ -2,6 +2,12 @@
 
 Example project for [DAABBCC](https://github.com/selimanac/DAABBCC) Native Extension for [Defold Engine](https://www.defold.com/)
 
+## Dependencies
+
+- [Defos](https://github.com/subsoap/defos) by [subsoap](https://twitter.com/Pkeod)
+- [Orthographic Camera](https://github.com/britzl/defold-orthographic) by [Björn Ritzl](https://twitter.com/bjornritzl)
+
+
 ## License
 
 ### Artwork
