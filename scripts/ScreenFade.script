@@ -1,0 +1,31 @@
+local FADE_TIME = 0.5
+local FADE_IN_OFFSET = 1
+local FADE_OUT_OFFSET = 0
+local controller_msg = msg.url("main", "/script", "GameManager")
+local component_name = "#circle"
+local texture_name = "stencil_circle" 
+
+go.property("offset", 1)
+
+function init(self)
+    sprite.set_constant(component_name, "offset", vmath.vector4(self.offset, 1, 1, 1))
+end
+
+function update(self, dt)
+    sprite.set_constant(component_name, "offset", vmath.vector4(self.offset, 1, 1, 1))  
+end
+
+function done(self, url, property)
+    msg.post(controller_msg, "_reload")
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("fade_out") then 
+        self.offset =1
+        go.animate("#", "offset", go.PLAYBACK_ONCE_FORWARD, FADE_OUT_OFFSET, go.EASING_LINEAR, FADE_TIME, 0, done)
+        msg.post("/sound_fx#music", "set_gain", {gain = 0})
+    elseif message_id == hash("fade_in") then
+        self.offset =0
+        go.animate("#", "offset", go.PLAYBACK_ONCE_FORWARD, FADE_IN_OFFSET, go.EASING_LINEAR, FADE_TIME, 0)
+    end
+end

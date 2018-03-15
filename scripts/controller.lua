@@ -3,6 +3,9 @@ M.world = {}
 
 M.collectable_count = 0 
 M.life_count = 4
+M.hero_id = 0
+M.enemy_ids = 1
+
 
 local hud = "/GUI#hud"
 local world =  M.world
@@ -37,6 +40,8 @@ function M.reset( )
 	world =  M.world
 	M.collectable_count = 0 
 	M.life_count = 4
+	M.hero_id = 0
+	M.enemy_ids = 1
 end
 
 function M.update_collectable()
@@ -49,5 +54,9 @@ function M.update_life()
 		M.life_count = M.life_count - 1
 		msg.post(hud, "set_life")
 	end
+end
+
+function M.enemy_id()
+	M.enemy_ids = M.enemy_ids +1
 end
 return M

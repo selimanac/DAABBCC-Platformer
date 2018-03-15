@@ -1,0 +1,7 @@
+mesh: "/assets/model/quad.dae"
+material: "/assets/shader/screenfade.material"
+textures: "/builtins/graphics/particle_blob.png"
+skeleton: ""
+animations: ""
+default_animation: ""
+name: "quad"

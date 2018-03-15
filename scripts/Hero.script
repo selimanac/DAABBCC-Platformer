@@ -123,6 +123,8 @@ function init(self)
 			on_enter_falling = do_falling,
 		}
 	})		
+
+	msg.post("/stencil#ScreenFade","fade_in")
 end
 
 function final(self)
@@ -175,16 +177,13 @@ local function fix_hero_position(mnormal,depth )
 	end
 end
 
-local function reload()	
-	local proxy = msg.url("default", "/script", "Proxy")
-	msg.post(proxy,"unload_level")
-end
-
+-- Kill the bunny
 local function reload_start()
 	is_die = true	
 	controller.play_sfx("hero-die", 1)	
 	go.animate("#sprite", "tint.w", go.PLAYBACK_ONCE_FORWARD, 0.0, go.EASING_LINEAR, 0.2)
-	go.animate("#", "dummy", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR,0.4, 0, reload)
+	go.animate("#", "dummy", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR,0.4, 0)
+	msg.post("/stencil#ScreenFade","fade_out")
 end  
 
 function update(self, dt)
@@ -222,6 +221,7 @@ function update(self, dt)
 		end 
 	end
 
+	-- Update hero position
 	hero_pos = hero_pos + (old_velocity + velocity) * 6.5 * dt; 
 
 	-- Update hero position in tree
@@ -245,6 +245,7 @@ function update(self, dt)
 
 			-- Check collision manifold
 			local count, depth, mnormal, contact_points = daabbcc.checkManifold("World", hero_id, result_id)	
+			
 			--Check if collide with enemy
 			if controller.world["enemys"][result_id] ~= nil then 			
 				hit_enemy(result_id,mnormal)
@@ -343,6 +344,7 @@ function on_message(self, message_id, message, sender)
 	-- Initial setup
 	if message_id== hash("set_hero") then 
 		hero_id = daabbcc.insertRect("World", hero_pos.x, hero_pos.y, hero_size.x,hero_size.y)
+		controller.hero_id = hero_id
 	end
 end
 

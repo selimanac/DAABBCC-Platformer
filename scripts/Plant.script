@@ -11,7 +11,9 @@ function init(self)
 	self.position = go.get_position()
 	self.direction = -1
 	self.size = go.get("#sprite", "size")
-	
+	self.size.x = 60
+	self.size.y = 35
+
 	self.enemy_id = controller.enemy_ids --increase with duplicate
 	self.name = "enemy"..self.enemy_id 
 	self.sprite_url = msg.url(self.name.."#sprite")
@@ -19,21 +21,24 @@ function init(self)
 
 	-- Enemy ray defaults
 	self.ray_position= self.position 
-	self.ray_rirection = vmath.vector3(-1, -1, 0) -- Down - Left
-	self.ray_distance = 20
+	self.ray_position.y = self.ray_position.y - 5
+	self.ray_rirection = vmath.vector3(-1, 0, 0) -- Down - Left
+	self.ray_distance = 30
+
+
+
+
+	self.is_hitting=false
 
 	--Add enemy to the World Tree
 	self.world_id = controller.addRect("World",self.position, self.size, "enemy", self.name, self.sprite_url )	
 
-	-- Check ground which enemy is on.
-	self.ground_result = daabbcc.queryID("World", self.world_id)
-	self.platform_id = self.ground_result[1] 
 
 	--Create a ray from enemy
 	self.ray_id = daabbcc.createRay(self.ray_position.x,self.ray_position.y, self.ray_rirection.x, self.ray_rirection.y, self.ray_distance)
 
 	--increase with duplicate
-	controller.enemy_id() 
+	controller.enemy_id()
 end
 
 local function removeAABB(self)
@@ -48,10 +53,11 @@ function final(self)
 	end 
 end
 
-local function flip_enemy(self)
-	self.direction = 	(self.direction == -1) and 1 or -1
-	sprite.set_hflip("#sprite", self.direction > -1)
-	self.ray_rirection = vmath.vector3(self.direction, -1, 0)	
+
+
+local function hit_hero(self)
+	self.is_hitting = true
+	msg.post(self.sprite_url, "play_animation", {id = hash("plant-attack")})
 end
 
 
@@ -60,18 +66,9 @@ function update(self, dt)
 	if self.is_death then			
 		return
 	end
-
-	self.position = vmath.vector3(self.position.x+(self.speed*dt)*self.direction,self.position.y,self.position.z)
-	self.ray_position = self.position
-
-	--Update enemy position(AABB) in tree
-	daabbcc.updateRect("World",self.world_id,self.position.x, self.position.y,self.size.x, self.size.y )
-
-	-- Update Ray position
-	daabbcc.updateRay( self.ray_id,self.ray_position.x, self.ray_position.y, self.ray_rirection.x, self.ray_rirection.y, self.ray_distance)
-
-	-- Raycast to ground
-	local ray_hit, ray_end, impact, ray_normal = daabbcc.rayCastToAABB("World", self.ray_id , self.platform_id)
+	
+	-- Raycast to bunny
+	local ray_hit, ray_end, impact, ray_normal = daabbcc.rayCastToAABB("World", self.ray_id , controller.hero_id)
 
 	-- End point of the ray
 	local ray_end_point = vmath.vector3(ray_end.x,ray_end.y,0)
@@ -80,23 +77,22 @@ function update(self, dt)
 	-- Turn on the debug_color , ray_end_point 
 	if ray_hit == 1 then
 		--ray_end_point = vmath.vector3(impact.x,impact.y,1)
-		-- debug_color =  vmath.vector4(1, 0, 0, 1) 
+		--debug_color =  vmath.vector4(1, 0, 0, 1) 
+		if self.is_hitting == false then
+			hit_hero(self)
+		end
 	else 
-		-- debug_color =  vmath.vector4(1, 1, 1, 1) 
-
-		-- If it is not colliding to ground, flip it.
-		flip_enemy(self)
+		--debug_color =  vmath.vector4(1, 1, 1, 1) 
+	
 	end 
 
 	-- Draw debug line
-	--msg.post("@render:", "draw_line", { start_point =self.ray_position, end_point = ray_end_point, color = debug_color } )
+--	msg.post("@render:", "draw_line", { start_point =self.ray_position, end_point = ray_end_point, color = debug_color } )
 
-	-- Set new position
-	go.set_position(self.position)
+	
 end
 
 function on_message(self, message_id, message, sender)
-	
 	if message_id== hash("enemy_death") then 
 		self.is_death = true
 		msg.post("#sprite", "play_animation", {id = hash("enemy-death")})
@@ -105,6 +101,19 @@ function on_message(self, message_id, message, sender)
 	end
 
 	if message_id == hash("animation_done") then
-		go.delete()
+	
+		if message.id == hash("plant-attack")  then
+			self.is_hitting = false
+			msg.post(self.sprite_url, "play_animation", {id = hash("plant-idle")})
+		end
+	if message_id== hash("enemy_death") then 
+		self.is_death = true
+		msg.post("#sprite", "play_animation", {id = hash("enemy-death")})
+		go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, self.position.y+20, go.EASING_INSINE, 0.4, 0)
+		removeAABB(self)
+	end
+		if message.id == hash("enemy-death")  then
+			go.delete()
+		end
 	end
 end

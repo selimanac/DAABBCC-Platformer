@@ -242,6 +242,47 @@ animations {
   flip_horizontal: 0
   flip_vertical: 0
 }
+animations {
+  id: "plant-idle"
+  images {
+    image: "/assets/png/sprites/enemies/piranha-plant/piranha-plant-1.png"
+  }
+  images {
+    image: "/assets/png/sprites/enemies/piranha-plant/piranha-plant-2.png"
+  }
+  images {
+    image: "/assets/png/sprites/enemies/piranha-plant/piranha-plant-3.png"
+  }
+  images {
+    image: "/assets/png/sprites/enemies/piranha-plant/piranha-plant-4.png"
+  }
+  images {
+    image: "/assets/png/sprites/enemies/piranha-plant/piranha-plant-5.png"
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 9
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "plant-attack"
+  images {
+    image: "/assets/png/sprites/enemies/piranha-plant-attack/piranha-plant-attack-4.png"
+  }
+  images {
+    image: "/assets/png/sprites/enemies/piranha-plant-attack/piranha-plant-attack-3.png"
+  }
+  images {
+    image: "/assets/png/sprites/enemies/piranha-plant-attack/piranha-plant-attack-2.png"
+  }
+  images {
+    image: "/assets/png/sprites/enemies/piranha-plant-attack/piranha-plant-attack-1.png"
+  }
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 9
+  flip_horizontal: 0
+  flip_vertical: 0
+}
 margin: 0
 extrude_borders: 1
 inner_padding: 0
