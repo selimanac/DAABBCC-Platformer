@@ -4,7 +4,7 @@ instances {
   prototype: "/orthographic/camera.go"
   position {
     x: 0.0
-    y: 88.0
+    y: 18.0
     z: 0.0
   }
   rotation {
@@ -57,22 +57,22 @@ instances {
     }
     properties {
       id: "deadzone_left"
-      value: "5.0"
+      value: "10.0"
       type: PROPERTY_TYPE_NUMBER
     }
     properties {
       id: "deadzone_bottom"
-      value: "10.0"
-      type: PROPERTY_TYPE_NUMBER
-    }
-    properties {
-      id: "deadzone_right"
       value: "5.0"
       type: PROPERTY_TYPE_NUMBER
     }
     properties {
-      id: "deadzone_top"
+      id: "deadzone_right"
       value: "10.0"
+      type: PROPERTY_TYPE_NUMBER
+    }
+    properties {
+      id: "deadzone_top"
+      value: "95.0"
       type: PROPERTY_TYPE_NUMBER
     }
   }
@@ -123,7 +123,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 19.0
+    x: 0.0
     y: 16.0
     z: 0.8
   }
@@ -157,12 +157,12 @@ embedded_instances {
   "  }\n"
   "  properties {\n"
   "    id: \"ground_count\"\n"
-  "    value: \"10.0\"\n"
+  "    value: \"11.0\"\n"
   "    type: PROPERTY_TYPE_NUMBER\n"
   "  }\n"
   "  properties {\n"
   "    id: \"star_count\"\n"
-  "    value: \"18.0\"\n"
+  "    value: \"28.0\"\n"
   "    type: PROPERTY_TYPE_NUMBER\n"
   "  }\n"
   "}\n"
@@ -211,11 +211,6 @@ embedded_instances {
   children: "front1"
   children: "front2"
   children: "front3"
-  children: "front4"
-  children: "front5"
-  children: "front6"
-  children: "front7"
-  children: "front8"
   data: "components {\n"
   "  id: \"Parallax\"\n"
   "  component: \"/scripts/Parallax.script\"\n"
@@ -233,7 +228,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 192.0
+    x: 0.0
     y: 93.0
     z: 0.3
   }
@@ -253,6 +248,7 @@ embedded_instances {
   id: "grounds"
   children: "ground1"
   children: "ground10"
+  children: "ground11"
   children: "ground2"
   children: "ground3"
   children: "ground4"
@@ -303,7 +299,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 65.0
+    x: 169.0
     y: -33.0
     z: 0.5
   }
@@ -324,15 +320,10 @@ embedded_instances {
   children: "far1"
   children: "far2"
   children: "far3"
-  children: "far4"
-  children: "far5"
-  children: "far6"
-  children: "far7"
-  children: "far8"
   data: ""
   position {
-    x: 96.0
-    y: 122.0
+    x: 0.0
+    y: 120.0
     z: 0.2
   }
   rotation {
@@ -348,7 +339,7 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "far1"
+  id: "far2"
   data: "embedded_components {\n"
   "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
@@ -358,7 +349,7 @@ embedded_instances {
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "\"\n"
   "  position {\n"
-  "    x: 0.0\n"
+  "    x: -96.0\n"
   "    y: 0.0\n"
   "    z: 0.0\n"
   "  }\n"
@@ -378,7 +369,7 @@ embedded_instances {
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "\"\n"
   "  position {\n"
-  "    x: 192.0\n"
+  "    x: 96.0\n"
   "    y: 0.0\n"
   "    z: 0.0\n"
   "  }\n"
@@ -408,7 +399,7 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "far2"
+  id: "far3"
   data: "embedded_components {\n"
   "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
@@ -418,7 +409,7 @@ embedded_instances {
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "\"\n"
   "  position {\n"
-  "    x: 0.0\n"
+  "    x: -96.0\n"
   "    y: 0.0\n"
   "    z: 0.0\n"
   "  }\n"
@@ -438,7 +429,7 @@ embedded_instances {
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "\"\n"
   "  position {\n"
-  "    x: 192.0\n"
+  "    x: 96.0\n"
   "    y: 0.0\n"
   "    z: 0.0\n"
   "  }\n"
@@ -468,7 +459,7 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "far3"
+  id: "far1"
   data: "embedded_components {\n"
   "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
@@ -478,7 +469,7 @@ embedded_instances {
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "\"\n"
   "  position {\n"
-  "    x: 0.0\n"
+  "    x: -96.0\n"
   "    y: 0.0\n"
   "    z: 0.0\n"
   "  }\n"
@@ -498,7 +489,7 @@ embedded_instances {
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "\"\n"
   "  position {\n"
-  "    x: 192.0\n"
+  "    x: 96.0\n"
   "    y: 0.0\n"
   "    z: 0.0\n"
   "  }\n"
@@ -528,9 +519,9 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "front1"
+  id: "front2"
   data: "embedded_components {\n"
-  "  id: \"sprite2\"\n"
+  "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
   "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
   "default_animation: \\\"middleground\\\"\\n"
@@ -568,9 +559,9 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "front2"
+  id: "front3"
   data: "embedded_components {\n"
-  "  id: \"sprite2\"\n"
+  "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
   "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
   "default_animation: \\\"middleground\\\"\\n"
@@ -608,9 +599,9 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "front3"
+  id: "front1"
   data: "embedded_components {\n"
-  "  id: \"sprite2\"\n"
+  "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
   "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
   "default_animation: \\\"middleground\\\"\\n"
@@ -652,7 +643,7 @@ embedded_instances {
   data: ""
   position {
     x: 0.0
-    y: 60.0
+    y: 18.0
     z: 0.0
   }
   rotation {
@@ -692,7 +683,7 @@ embedded_instances {
   ""
   position {
     x: 621.0
-    y: -5.0
+    y: -129.0
     z: 0.5
   }
   rotation {
@@ -733,7 +724,7 @@ embedded_instances {
   position {
     x: 209.0
     y: 110.0
-    z: 0.5
+    z: 0.7
   }
   rotation {
     x: 0.0
@@ -753,6 +744,7 @@ embedded_instances {
   children: "enemy2"
   children: "enemy3"
   children: "enemy4"
+  children: "enemy5"
   data: ""
   position {
     x: 0.0
@@ -768,46 +760,6 @@ embedded_instances {
   scale3 {
     x: 1.0
     y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "colorbox"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"back\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 350.0
-    y: 482.0
-    z: 0.1
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 320.295
-    y: 50.0
     z: 1.0
   }
 }
@@ -876,7 +828,7 @@ embedded_instances {
   ""
   position {
     x: 842.0
-    y: 116.0
+    y: -8.0
     z: 0.5
   }
   rotation {
@@ -916,208 +868,8 @@ embedded_instances {
   ""
   position {
     x: 1070.0
-    y: 116.0
+    y: -8.0
     z: 0.5
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "front4"
-  data: "embedded_components {\n"
-  "  id: \"sprite2\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"middleground\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 768.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "front5"
-  data: "embedded_components {\n"
-  "  id: \"sprite2\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"middleground\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 1152.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "far4"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"background\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"sprite1\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"background\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 192.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 768.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "far5"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"background\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"sprite1\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"background\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 192.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 1152.0
-    y: 0.0
-    z: 0.0
   }
   rotation {
     x: 0.0
@@ -1143,7 +895,17 @@ embedded_instances {
   children: "collectable16"
   children: "collectable17"
   children: "collectable18"
+  children: "collectable19"
   children: "collectable2"
+  children: "collectable20"
+  children: "collectable21"
+  children: "collectable22"
+  children: "collectable23"
+  children: "collectable24"
+  children: "collectable25"
+  children: "collectable26"
+  children: "collectable27"
+  children: "collectable28"
   children: "collectable3"
   children: "collectable4"
   children: "collectable5"
@@ -1195,7 +957,7 @@ embedded_instances {
   position {
     x: 59.0
     y: 14.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1233,9 +995,9 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 157.0
+    x: 168.0
     y: 14.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1275,7 +1037,7 @@ embedded_instances {
   position {
     x: 318.0
     y: 14.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1315,7 +1077,7 @@ embedded_instances {
   position {
     x: 209.0
     y: 138.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1355,7 +1117,7 @@ embedded_instances {
   position {
     x: 143.0
     y: 138.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1395,7 +1157,7 @@ embedded_instances {
   position {
     x: 274.0
     y: 138.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1435,7 +1197,7 @@ embedded_instances {
   position {
     x: -142.0
     y: 158.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1475,7 +1237,7 @@ embedded_instances {
   position {
     x: -17.0
     y: 93.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1515,7 +1277,7 @@ embedded_instances {
   position {
     x: -62.0
     y: 177.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1555,7 +1317,7 @@ embedded_instances {
   position {
     x: -34.0
     y: 139.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1595,7 +1357,7 @@ embedded_instances {
   position {
     x: -99.0
     y: 176.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1635,7 +1397,7 @@ embedded_instances {
   position {
     x: -159.0
     y: 124.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1673,9 +1435,9 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 102.0
+    x: 116.0
     y: 14.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1713,9 +1475,9 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 200.0
+    x: 221.0
     y: 14.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -1753,309 +1515,9 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 259.0
+    x: 268.0
     y: 14.0
-    z: 0.5
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "far6"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"background\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"sprite1\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"background\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 192.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: -768.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "far7"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"background\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"sprite1\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"background\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 192.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: -1152.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "front6"
-  data: "embedded_components {\n"
-  "  id: \"sprite2\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"middleground\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: -768.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "front7"
-  data: "embedded_components {\n"
-  "  id: \"sprite2\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"middleground\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: -1152.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "far8"
-  data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"background\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  "embedded_components {\n"
-  "  id: \"sprite1\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"background\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 192.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 1536.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-  scale3 {
-    x: 1.0
-    y: 1.0
-    z: 1.0
-  }
-}
-embedded_instances {
-  id: "front8"
-  data: "embedded_components {\n"
-  "  id: \"sprite2\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"middleground\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
-  "\"\n"
-  "  position {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "  }\n"
-  "  rotation {\n"
-  "    x: 0.0\n"
-  "    y: 0.0\n"
-  "    z: 0.0\n"
-  "    w: 1.0\n"
-  "  }\n"
-  "}\n"
-  ""
-  position {
-    x: 1536.0
-    y: 0.0
-    z: 0.0
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -2108,9 +1570,9 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 481.0
-    y: 38.0
-    z: 0.5
+    x: 453.0
+    y: -86.0
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -2170,7 +1632,7 @@ embedded_instances {
   "  id: \"sprite\"\n"
   "  type: \"sprite\"\n"
   "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
-  "default_animation: \\\"tests3\\\"\\n"
+  "default_animation: \\\"tests\\\"\\n"
   "material: \\\"/builtins/materials/sprite.material\\\"\\n"
   "blend_mode: BLEND_MODE_ALPHA\\n"
   "\"\n"
@@ -2188,7 +1650,7 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: -42.0
+    x: -44.0
     y: -201.0
     z: 0.5
   }
@@ -2285,7 +1747,7 @@ embedded_instances {
   position {
     x: -179.0
     y: 91.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -2340,7 +1802,7 @@ embedded_instances {
   position {
     x: 240.0
     y: -210.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -2395,7 +1857,7 @@ embedded_instances {
   position {
     x: 177.0
     y: 136.0
-    z: 0.5
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -2433,8 +1895,8 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 953.0
-    y: -5.0
+    x: 958.0
+    y: -129.0
     z: 0.5
   }
   rotation {
@@ -2474,8 +1936,8 @@ embedded_instances {
   ""
   position {
     x: 908.0
-    y: 40.0
-    z: 0.5
+    y: -84.0
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -2514,8 +1976,8 @@ embedded_instances {
   ""
   position {
     x: 1004.0
-    y: 40.0
-    z: 0.5
+    y: -84.0
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -2554,8 +2016,8 @@ embedded_instances {
   ""
   position {
     x: 957.0
-    y: 40.0
-    z: 0.5
+    y: -84.0
+    z: 0.6
   }
   rotation {
     x: 0.0
@@ -2574,6 +2036,7 @@ embedded_instances {
   children: "platform1"
   children: "platform2"
   children: "platform3"
+  children: "platform4"
   data: ""
   position {
     x: 0.0
@@ -2632,7 +2095,7 @@ embedded_instances {
   ""
   position {
     x: 778.0
-    y: 70.0
+    y: -54.0
     z: 0.5
   }
   rotation {
@@ -2687,7 +2150,7 @@ embedded_instances {
   ""
   position {
     x: 1006.0
-    y: 70.0
+    y: -54.0
     z: 0.5
   }
   rotation {
@@ -2725,7 +2188,7 @@ embedded_instances {
   "  }\n"
   "  properties {\n"
   "    id: \"distance\"\n"
-  "    value: \"50.0\"\n"
+  "    value: \"100.0\"\n"
   "    type: PROPERTY_TYPE_NUMBER\n"
   "  }\n"
   "  properties {\n"
@@ -2756,8 +2219,8 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 0.0
-    y: 103.0
+    x: 1225.0
+    y: 19.0
     z: 0.5
   }
   rotation {
@@ -2989,6 +2452,996 @@ embedded_instances {
     x: 0.0
     y: 0.0
     z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "platform4"
+  data: "components {\n"
+  "  id: \"Platform\"\n"
+  "  component: \"/scripts/Platform.script\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"direction\"\n"
+  "    value: \"1.0\"\n"
+  "    type: PROPERTY_TYPE_NUMBER\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"horizantal\"\n"
+  "    value: \"false\"\n"
+  "    type: PROPERTY_TYPE_BOOLEAN\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"distance\"\n"
+  "    value: \"150.0\"\n"
+  "    type: PROPERTY_TYPE_NUMBER\n"
+  "  }\n"
+  "  properties {\n"
+  "    id: \"speed\"\n"
+  "    value: \"40.0\"\n"
+  "    type: PROPERTY_TYPE_NUMBER\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"tests13\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 1408.0
+    y: -50.0
+    z: 0.5
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "props"
+  data: "embedded_components {\n"
+  "  id: \"house\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"house\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"tree\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"tree\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: -583.0\n"
+  "    y: 110.0\n"
+  "    z: 0.5\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"plant\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"plant\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 116.0\n"
+  "    y: -78.0\n"
+  "    z: 0.5\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"plant1\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"plant\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: -293.0\n"
+  "    y: -204.0\n"
+  "    z: 0.5\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"plant2\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"plant\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: -571.0\n"
+  "    y: -151.0\n"
+  "    z: 0.5\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"rock\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"rock\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: -405.0\n"
+  "    y: -193.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"mushroom1\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"mushroom-brown\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: -300.0\n"
+  "    y: 30.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"mushroom2\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"mushroom-red\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: -315.0\n"
+  "    y: 30.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"mushroom3\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"mushroom-red\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: -225.0\n"
+  "    y: -193.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"vine1\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"vine\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: -428.0\n"
+  "    y: 84.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"vine2\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"vine\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: -401.0\n"
+  "    y: 99.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"rock1\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"rock\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: -858.0\n"
+  "    y: 109.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"tree1\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"tree\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 1344.0\n"
+  "    y: 108.0\n"
+  "    z: 0.5\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"mushroom\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"mushroom-brown\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 1277.0\n"
+  "    y: 28.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"mushroom4\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"mushroom-red\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 1262.0\n"
+  "    y: 28.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"mushroom5\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"mushroom-red\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 296.0\n"
+  "    y: -68.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"plant3\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"plant\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 486.0\n"
+  "    y: 93.0\n"
+  "    z: 0.5\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"rock2\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"rock\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 1412.0\n"
+  "    y: 29.0\n"
+  "    z: 0.3\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 1.0\n"
+  "    z: 0.0\n"
+  "    w: 6.123234E-17\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 594.0
+    y: -14.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "collectable19"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"star\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 502.0
+    y: -207.0
+    z: 0.6
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "collectable20"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"star\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 451.0
+    y: -207.0
+    z: 0.6
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "collectable21"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"star\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 397.0
+    y: -207.0
+    z: 0.6
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "collectable22"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"star\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: -64.0
+    y: -154.0
+    z: 0.6
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "collectable23"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"star\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: -19.0
+    y: -154.0
+    z: 0.6
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "ground11"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"tests3\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 1838.0
+    y: -33.0
+    z: 0.5
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "collectable24"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"star\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 1683.0
+    y: 14.0
+    z: 0.6
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "collectable25"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"star\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 1736.0
+    y: 14.0
+    z: 0.6
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "collectable26"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"star\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 1785.0
+    y: 14.0
+    z: 0.6
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "collectable27"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"star\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 1841.0
+    y: 14.0
+    z: 0.6
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "collectable28"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"star\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 1896.0
+    y: 14.0
+    z: 0.6
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "colorbox"
+  data: "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"back\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 160.0
+    y: 309.0
+    z: 0.1
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 100.0
+    y: 50.0
+    z: 1.0
+  }
+}
+embedded_instances {
+  id: "enemy5"
+  data: "components {\n"
+  "  id: \"Enemy\"\n"
+  "  component: \"/scripts/Enemy.script\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"sprite\"\n"
+  "  type: \"sprite\"\n"
+  "  data: \"tile_set: \\\"/assets/atlas/main.atlas\\\"\\n"
+  "default_animation: \\\"slug\\\"\\n"
+  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
+  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  ""
+  position {
+    x: 426.0
+    y: -210.0
+    z: 0.6
   }
   rotation {
     x: 0.0

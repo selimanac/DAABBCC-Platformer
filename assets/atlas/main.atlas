@@ -46,6 +46,30 @@ images {
 images {
   image: "/assets/png/sprites/misc/hud/hud-4.png"
 }
+images {
+  image: "/assets/png/environment/props/house.png"
+}
+images {
+  image: "/assets/png/environment/props/tree.png"
+}
+images {
+  image: "/assets/png/environment/props/plant.png"
+}
+images {
+  image: "/assets/png/environment/props/rock.png"
+}
+images {
+  image: "/assets/png/environment/props/mushroom-brown.png"
+}
+images {
+  image: "/assets/png/environment/props/mushroom-red.png"
+}
+images {
+  image: "/assets/png/environment/props/vine.png"
+}
+images {
+  image: "/assets/png/back2.png"
+}
 animations {
   id: "player-idle"
   images {

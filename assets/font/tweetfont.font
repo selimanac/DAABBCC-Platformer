@@ -1,6 +1,6 @@
 font: "/assets/font/pixelmix.ttf"
 material: "/assets/font/pixelfont.material"
-size: 8
+size: 6
 antialias: 0
 alpha: 1.0
 outline_alpha: 0.0

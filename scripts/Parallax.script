@@ -1,24 +1,77 @@
+local orthocamera = require "orthographic.camera"
+
+go.property("backrounds_count", 3)
+
+local camera = hash("/camera")
+
+local initial_camera_position = vmath.vector3()
+local initial_position = vmath.vector3()
+local offset_factor = 0
+local camera_position = vmath.vector3()
+local diff = vmath.vector3()
+local new_position = vmath.vector3()
+local camera_bounds = vmath.vector3()
+local prev_camera_position = vmath.vector3()
+local direction = 1
+
+
+
 function init(self)
 
-
-
-	self.initial_camera_position = go.get_world_position("camera")
-	self.initial_position = go.get_position()
-	self.offset_factor = self.initial_position.z*0.2
-
+	initial_camera_position = go.get_world_position("camera")
+	initial_position = go.get_position()
+	offset_factor =  0.02
 end
 
 function update(self, dt)
-	--
-	-- offset the game object based on how far the camera has
-	-- scrolled from it's initial position and the z-value of this
-	-- game object
-	--
-	local camera_position = go.get_world_position("camera")
+	
+	camera_position = go.get_world_position("camera")
 
-	local diff = self.initial_camera_position - camera_position
-	diff.y = diff.y * -0.15
+	diff = initial_camera_position - camera_position
+	diff.y = diff.y * -0.02 * dt
 	diff.z = 0
+	new_position= initial_position + diff * offset_factor 
+	go.set_position(new_position)
 
-	go.set_position(self.initial_position + diff * self.offset_factor)
+	camera_bounds = orthocamera.screen_to_world_bounds(camera)
+
+	if camera_bounds.x >= prev_camera_position.x then		
+		direction = 1
+	else 	
+		direction = -1
+	end
+
+	for i = 1, 3 do
+		local _pos = go.get_position("front"..i)
+		local _l = _pos.x - 192
+		local _r = _pos.x + 192
+		local _next_l  
+		local _next_r 
+		local _next_pos
+		if camera_bounds.x > _r+90  and direction == 1 then	
+			if i == 1 then
+				_next_pos = go.get_position("front3")	
+			else 
+				_next_pos = go.get_position("front"..i-1)	
+			end
+			_next_l = _next_pos.x - 192
+			_next_r = _next_pos.x + 192
+			go.set("front"..i, "position.x", _next_r+192)
+			go.set("far"..i, "position.x", _next_r+192)
+		end
+
+		if camera_bounds.z < _l-90 and direction == -1  then			
+			if i == 3 then
+				_next_pos = go.get_position("front1")	
+			else 
+				_next_pos = go.get_position("front"..i+1)	
+			end
+			_next_l = _next_pos.x - 192
+			_next_r = _next_pos.x + 192
+			go.set("front"..i, "position.x", _next_l-192)
+			go.set("far"..i, "position.x", _next_l-192)
+		end
+	end 
+	
+	prev_camera_position =camera_bounds
 end

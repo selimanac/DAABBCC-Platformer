@@ -1,26 +1,43 @@
+
+local controller = require "scripts.controller"
+
+local star_count_node
+local life_count_node
+
+
+
 function init(self)
-	-- Add initialization code here
-	-- Remove this function if not needed
+	star_count_node = gui.get_node("stars")
+	life_count_node = gui.get_node("life")
+	gui.set_text(star_count_node, "0")
+
+	gui.play_flipbook(life_count_node, "hud-4")
+
 end
 
 function final(self)
 	-- Add finalization code here
 	-- Remove this function if not needed
 end
+local function update_collectable()
+	gui.set_text(star_count_node, controller.collectable_count)
+end 
 
-function update(self, dt)
-	-- Add update code here
-	-- Remove this function if not needed
-end
+local function update_life()
+	gui.play_flipbook(life_count_node, "hud-"..controller.life_count)
+end 
 
 function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Remove this function if not needed
+	if message_id== hash("set_collectable") then 
+		update_collectable()		
+	end
+	if message_id== hash("set_life") then 
+		update_life()		
+	end
 end
 
 function on_input(self, action_id, action)
-	-- Add input-handling code here
-	-- Remove this function if not needed
+
 end
 
 function on_reload(self)

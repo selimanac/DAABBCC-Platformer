@@ -1,10 +1,12 @@
 local fsm = require "scripts.statemachine"
 local controller = require "scripts.controller"
+local orthocamera = require "orthographic.camera"
+
 
 local hero_id
 local hero_pos = vmath.vector3()
 local hero_size = vmath.vector3()
-local v_down = vmath.vector3(0, -1, 0) 
+local v_down = vmath.vector3(0,-1, 0) 
 local v_up = vmath.vector3(0, 1, 0) 
 local v_right = vmath.vector3(1, 0, 0) 
 local v_left = vmath.vector3(-1, 0, 0)
@@ -13,9 +15,11 @@ local _normal = vmath.vector3()
 local is_grounded = false
 local is_walking = false;
 local is_from_bottom = false
+local is_platform_from_bottom
 local is_on_platform = false
 local is_die = false
 local is_platform_moving = false
+
 
 local move_direction = -1
 local prev_direction = -1
@@ -36,7 +40,7 @@ local query_result = {}
 
 go.property("dummy", 0)
 
---[[ STATES ]]--
+--[[ FSM STATES ]]--
 local function set_state(self, event, from, to, eventmsg )
 end
 
@@ -50,8 +54,6 @@ end
 local function stop_standing(self, event, from, to, eventmsg )
 	is_platform_moving = false	
 end
-
-
 
 local function do_walking(self, event, from, to, eventmsg )	
 	velocity = vmath.vector3()
@@ -80,13 +82,14 @@ local function do_falling(self, event, from, to, eventmsg )
 	msg.post("#sprite", "play_animation", {id = hash("player-fall")})
 end
 
-
+--[[ INIT ]]--
 function init(self)
 	msg.post('.', 'acquire_input_focus')
 	hero_pos = go.get_position()
 	hero_size = go.get("#sprite", "size")
-	hero_size.x = 5 -- manipulate the hero width
+	hero_size.x = 5 -- manipulate the hero width because actual sprite size is too large
 
+	-- setup fsm
 	herofsm = fsm.create({
 		events = {
 			{
@@ -123,29 +126,32 @@ function init(self)
 end
 
 function final(self)
-	daabbcc.removeAABB("World", hero_id)
-	
+	-- Remove hero from tree
+	daabbcc.removeAABB("World", hero_id)	
 end
 
+--[[ HIT SLUG ]]--
 local function hit_enemy(enemy_id, _normal)	
 	if _normal.x == 0 and _normal.y == -1 and  herofsm:is("falling") then
 		controller.play_sfx("slug-die", 1)
+		msg.post("camera", "shake", { intensity = 0.01, duration = 0.2, direction = "vertical" })
 		local go_name = "/"..controller.world["enemys"][enemy_id]["name"]
 		local go_pos  = go.get_position(go_name)
 		msg.post(go_name, "enemy_death")
-
 		controller.world["enemys"][enemy_id] = nil
-
-		elseif herofsm.current ~= "jumping" then
-			controller.play_sfx("hurt", 1)
-			velocity = (velocity + v_up) - acceleration * (-1.3* (_normal.x * move_direction) ); 
+		else 
+			controller.play_sfx("hurt", 1)			
+			msg.post("camera", "shake", { intensity = 0.01, duration = 0.1, direction = "both" })			
+			velocity = vmath.vector3()	
+			velocity = (velocity + v_up) - acceleration * (-2.2* (_normal.x * move_direction) ); 		
+			controller.update_life()	
 		end
 	end 
 
-
-	local function collectStar(star_id) 
+--[[ Collect Stars]]--
+local function collectStar(star_id) 
+		controller.update_collectable()
 		controller.play_sfx("collect", 1)
-		
 		daabbcc.removeAABB("World",star_id)
 
 		local go_name = "/"..controller.world["collectables"][star_id]["name"]
@@ -153,17 +159,14 @@ local function hit_enemy(enemy_id, _normal)
 		local go_sprite = controller.world["collectables"][star_id]["sprite"]
 		local go_to = go_pos
 		go_to.y= go_to.y+30
-
 		controller.world["collectables"][star_id] = nil
-
 	go.animate(go_name, "position", go.PLAYBACK_ONCE_FORWARD, go_to, go.EASING_INSINE, 0.4, 0,function() go.delete(go_name)end)
 end
 
+-- Fix hero possition with manifold result
 local function fix_hero_position(mnormal,depth )
-
 	_normal.x = mnormal.x
 	_normal.y = mnormal.y
-
 	if mnormal.y ~= 0 then
 		hero_pos.y = hero_pos.y - (depth * mnormal.y)
 	end
@@ -178,19 +181,23 @@ local function reload()
 end
 
 local function reload_start()
+	is_die = true	
 	controller.play_sfx("hero-die", 1)	
-	go.animate("#", "dummy", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR,0.5, 0, reload)
+	go.animate("#sprite", "tint.w", go.PLAYBACK_ONCE_FORWARD, 0.0, go.EASING_LINEAR, 0.2)
+	go.animate("#", "dummy", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR,0.4, 0, reload)
 end  
 
 function update(self, dt)
+	
 	if is_die == true then
 		return
 	end 
 
-	if hero_pos.y < -380 and is_die == false then
-		reload()
-		is_die = true	
+	if (hero_pos.y < -380 or controller.life_count == 1) and is_die == false then
+		reload_start()	
 	end
+
+	--[[ Movements]]--
 	old_velocity = velocity; 
 	velocity_limit = vmath.dot(velocity, max_velocity)
 	
@@ -204,8 +211,7 @@ function update(self, dt)
 		herofsm:FALL()
 	end 
 
-
-	if herofsm:is("falling") and is_on_platform == false then
+	if herofsm:is("falling") and is_on_platform == false and velocity_limit > -750 then
 		velocity = (velocity + v_down) + acceleration * dt; 
 	end
 
@@ -224,8 +230,9 @@ function update(self, dt)
 	-- Query the tree for possible collisions
 	local query_result = daabbcc.queryID("World", hero_id)
 
+	--[[ Check collisions ]]--
 	if #query_result > 0 then
-
+		
 		for i = 1, #query_result do
 			
 			local result_id = query_result[i]
@@ -238,30 +245,24 @@ function update(self, dt)
 
 			-- Check collision manifold
 			local count, depth, mnormal, contact_points = daabbcc.checkManifold("World", hero_id, result_id)	
-
 			--Check if collide with enemy
-			if controller.world["enemys"][result_id] ~= nil then 
-				hit_enemy(result_id,mnormal)	
+			if controller.world["enemys"][result_id] ~= nil then 			
+				hit_enemy(result_id,mnormal)
 			end
-
-			-- Check if collision start from bottom
-			if mnormal.y == 1 and mnormal.x == 0 then
-				is_from_bottom = true
+			
+			-- Check if collision start from bottom of the ground
+			if mnormal.y == 1 and mnormal.x == 0 and controller.world["platforms"][result_id] == nil  then		
+				is_from_bottom = true							
 			end  
 
-			-- If hero hits walll 
-			if mnormal.y == 0 and (mnormal.x == 1 or mnormal.x == -1) and is_from_bottom == false then	
-				controller.play_sfx("drop", 1)							
-				if herofsm.current ~= "jumping" then
-					velocity = (velocity + v_up) - acceleration * (-1.3* (_normal.x * move_direction) ) ; 
-				end
-				fix_hero_position(mnormal, depth)
+			-- Check if collision start from bottom of the platform
+			if mnormal.y == 1 and mnormal.x == 0  then		
+				is_platform_from_bottom = true						
 			end
 
 			--Check if collide with platform
-			if controller.world["platforms"][result_id] ~= nil  then 		
-				if mnormal.y == -1 and mnormal.x == 0 and herofsm.current ~= "jumping" and is_from_bottom == false then	
-					--is_grounded = true 	
+			if controller.world["platforms"][result_id] ~= nil  then 	
+				if mnormal.y == -1 and mnormal.x == 0 and herofsm.current ~= "jumping" and is_platform_from_bottom == false then			
 					is_on_platform = true
 					if is_walking == true then
 						herofsm:WALK()
@@ -270,52 +271,68 @@ function update(self, dt)
 					end
 					
 					local platform_position = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "position")
-					local platform_direction = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "direction")
+					--local platform_direction = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "direction")
 					local platform_type = go.get(controller.world["platforms"][result_id]["name"].."#Platform", "horizantal")
-
+					
 					fix_hero_position(mnormal, depth)
 
 					-- fake position	
-					if platform_type then
+					if platform_type then			
 						hero_pos.y  = platform_position.y + (hero_size.y-9) 
-						elseif herofsm.current ~= "walking" then
-
-							if is_platform_moving == false then
-								is_platform_moving = true	
-								delta =  (hero_pos.x - platform_position.x) 
-							end
-		
-					hero_pos.x = platform_position.x+delta
-
+					elseif herofsm.current ~= "walking" then
+						if is_platform_moving == false then
+							is_platform_moving = true	
+							delta =  (hero_pos.x - platform_position.x) 
+						end
+						hero_pos.x = platform_position.x+delta
+					end
+					
+				else
+					is_on_platform = false
+					is_platform_from_bottom = true
+					is_grounded = false
 				end
-			end
 			end -- Ground check end
-
 
 			--Check if collide with ground
 			if controller.world["grounds"][result_id] ~= nil then 		
+				
+				-- If hit the ground sides
+				if (mnormal.x == -1 ) or (mnormal.x == 1 ) and is_from_bottom == false then					
+					--fix_hero_position(mnormal, depth)
+					velocity.x = 0
+					if is_on_platform ==false and herofsm.current ~= "jumping" then					
+						velocity = (velocity + v_up) - vmath.vector3((10* mnormal.x), -0.5, 0)
+					elseif herofsm.current ~= "jumping" then
+						--if is on platform use different velocity			
+						velocity = (velocity + v_up) - vmath.vector3((5* mnormal.x), -10, 0)
+					end
+				end
+
+				-- Bottom
 				if mnormal.y == -1 and mnormal.x == 0 and herofsm.current ~= "jumping" and is_grounded==false and is_from_bottom == false then	
 					controller.play_sfx("drop", 1)
-					is_grounded = true 	
-					if is_walking == true then
-						herofsm:WALK()
-					else
-						herofsm:IDLE()
-					end
+				--	msg.post("camera", "shake", { intensity = 0.01, duration = 0.1, direction = "vertical" })
+				is_grounded = true 	
+				if is_walking == true then
+					herofsm:WALK()
+				else
+					herofsm:IDLE()
+				end
 					--Fix hero position
 					fix_hero_position(mnormal, depth)
 				end
+
 			end -- Ground check end
 
 		end -- for loop end 
-
 	else -- else if there is no collision
 	
 	is_grounded = false
 	is_from_bottom = false
 	is_on_platform = false
-end
-
+	is_platform_from_bottom = false
+	end
 	-- set new position
 	go.set_position(hero_pos)
 	velocity_limit = vmath.vector3()

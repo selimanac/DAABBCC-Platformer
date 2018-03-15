@@ -1,6 +1,10 @@
 local M={}
-
 M.world = {}
+
+M.collectable_count = 0 
+M.life_count = 4
+
+local hud = "/GUI#hud"
 local world =  M.world
 local sound_controller =  msg.url("main" , "/sound_fx", "SoundGate")
 
@@ -31,6 +35,19 @@ end
 function M.reset( )
 	M.world = {}
 	world =  M.world
+	M.collectable_count = 0 
+	M.life_count = 4
 end
 
+function M.update_collectable()
+	M.collectable_count =M.collectable_count + 1
+	msg.post(hud, "set_collectable")
+end	
+
+function M.update_life()
+	if M.life_count > 1 then
+		M.life_count = M.life_count - 1
+		msg.post(hud, "set_life")
+	end
+end
 return M

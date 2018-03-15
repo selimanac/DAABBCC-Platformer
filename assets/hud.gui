@@ -47,7 +47,7 @@ nodes {
   type: TYPE_BOX
   blend_mode: BLEND_MODE_ALPHA
   texture: "main/hud-4"
-  id: "box"
+  id: "life"
   xanchor: XANCHOR_LEFT
   yanchor: YANCHOR_TOP
   pivot: PIVOT_CENTER
@@ -69,8 +69,8 @@ nodes {
 }
 nodes {
   position {
-    x: 71.0
-    y: 339.0
+    x: 25.0
+    y: 1.0
     z: 0.0
     w: 1.0
   }
@@ -120,6 +120,7 @@ nodes {
   }
   adjust_mode: ADJUST_MODE_STRETCH
   line_break: false
+  parent: "life"
   layer: ""
   inherit_alpha: true
   alpha: 1.0
