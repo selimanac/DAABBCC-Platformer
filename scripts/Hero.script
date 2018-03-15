@@ -311,7 +311,7 @@ function update(self, dt)
 
 				-- Bottom
 				if mnormal.y == -1 and mnormal.x == 0 and herofsm.current ~= "jumping" and is_grounded==false and is_from_bottom == false then	
-					controller.play_sfx("drop", 1)
+					controller.play_sfx("drop", 0.3)
 				--	msg.post("camera", "shake", { intensity = 0.01, duration = 0.1, direction = "vertical" })
 				is_grounded = true 	
 				if is_walking == true then
