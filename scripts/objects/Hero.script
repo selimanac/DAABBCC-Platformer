@@ -19,7 +19,7 @@ local is_platform_from_bottom
 local is_on_platform = false
 local is_die = false
 local is_platform_moving = false
-
+local is_hit_by_enemy = false
 
 local move_direction = -1
 local prev_direction = -1
@@ -52,6 +52,7 @@ local function do_standing(self, event, from, to, eventmsg )
 end
 
 local function stop_standing(self, event, from, to, eventmsg )
+
 	is_platform_moving = false	
 end
 
@@ -74,6 +75,7 @@ local function stop_walking(self, event, from, to, eventmsg )
 end
 
 local function do_jumping(self, event, from, to, eventmsg )
+
 	controller.play_sfx("jump", 1)
 	is_grounded = false	
 	msg.post("#sprite", "play_animation", {id = hash("player-jump")})
@@ -136,7 +138,7 @@ end
 
 --[[ HIT SLUG ]]--
 local function hit_enemy(enemy_id, _normal)	
-
+	is_hit_by_enemy = true
 	if _normal.x == 0 and _normal.y == -1 and  herofsm:is("falling") then
 		controller.play_sfx("slug-die", 1)
 		msg.post("camera", "shake", { intensity = 0.01, duration = 0.2, direction = "vertical" })
@@ -153,6 +155,7 @@ local function hit_enemy(enemy_id, _normal)
 		velocity = vmath.vector3()	
 		velocity = (velocity + v_up) - acceleration * (-2.2* (_normal.x * move_direction) ); 		
 		controller.update_life()	
+
 	end
 
 end 
@@ -215,7 +218,7 @@ function update(self, dt)
 		velocity.x = (velocity.x - move_direction) + acceleration.x * dt;    	
 	end
 
-	if herofsm:is("jumping") and velocity_limit < 450  then
+	if herofsm:is("jumping") and velocity_limit < 450 and is_hit_by_enemy == false  then	
 		velocity = (velocity + v_up) + acceleration * dt; 
 	else 
 		herofsm:FALL()
@@ -308,7 +311,7 @@ function update(self, dt)
 
 			--Check if collide with ground
 			if controller.world["grounds"][result_id] ~= nil then 		
-				
+					is_hit_by_enemy = false
 				-- If hit the ground sides
 				if (mnormal.x == -1 ) or (mnormal.x == 1 ) and is_from_bottom == false then					
 					--fix_hero_position(mnormal, depth)
@@ -344,6 +347,7 @@ function update(self, dt)
 	is_from_bottom = false
 	is_on_platform = false
 	is_platform_from_bottom = false
+
 	end
 	-- set new position
 	go.set_position(hero_pos)

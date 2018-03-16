@@ -30,7 +30,7 @@ default_texture_min_filter = nearest
 default_texture_mag_filter = nearest
 
 [native_extension]
-app_manifest = /release-nophysic.appmanifest
+app_manifest = 
 
 [osx]
 bundle_identifier = com.selimanac.daabbcc.platformer
