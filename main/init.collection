@@ -39,7 +39,7 @@ embedded_instances {
   id: "script"
   data: "components {\n"
   "  id: \"Proxy\"\n"
-  "  component: \"/scripts/Proxy.script\"\n"
+  "  component: \"/scripts/general/Proxy.script\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"

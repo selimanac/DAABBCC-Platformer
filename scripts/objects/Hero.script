@@ -60,10 +60,12 @@ local function do_walking(self, event, from, to, eventmsg )
 	is_walking = true
 	is_grounded = true
 	sprite.set_hflip("#sprite", move_direction > 0)
+
 	if prev_direction ~= move_direction then
 		acceleration.x = acceleration.x * -1
 		max_velocity.x = max_velocity.x * -1	
 	end
+
 	prev_direction = move_direction
 	msg.post("#sprite", "play_animation", {id = hash("player-skip")})	
 end
@@ -87,7 +89,7 @@ function init(self)
 	msg.post('.', 'acquire_input_focus')
 	hero_pos = go.get_position()
 	hero_size = go.get("#sprite", "size")
-	hero_size.x = 5 -- manipulate the hero width because actual sprite size is too large
+	hero_size.x = 5 -- tweak the hero width 
 
 	-- setup fsm
 	herofsm = fsm.create({
@@ -134,34 +136,40 @@ end
 
 --[[ HIT SLUG ]]--
 local function hit_enemy(enemy_id, _normal)	
+
 	if _normal.x == 0 and _normal.y == -1 and  herofsm:is("falling") then
 		controller.play_sfx("slug-die", 1)
 		msg.post("camera", "shake", { intensity = 0.01, duration = 0.2, direction = "vertical" })
+
 		local go_name = "/"..controller.world["enemys"][enemy_id]["name"]
 		local go_pos  = go.get_position(go_name)
+
 		msg.post(go_name, "enemy_death")
 		controller.world["enemys"][enemy_id] = nil
-		else 
-			controller.play_sfx("hurt", 1)			
-			msg.post("camera", "shake", { intensity = 0.01, duration = 0.1, direction = "both" })			
-			velocity = vmath.vector3()	
-			velocity = (velocity + v_up) - acceleration * (-2.2* (_normal.x * move_direction) ); 		
-			controller.update_life()	
-		end
-	end 
+
+	else 
+		controller.play_sfx("hurt", 1)			
+		msg.post("camera", "shake", { intensity = 0.01, duration = 0.1, direction = "both" })			
+		velocity = vmath.vector3()	
+		velocity = (velocity + v_up) - acceleration * (-2.2* (_normal.x * move_direction) ); 		
+		controller.update_life()	
+	end
+
+end 
 
 --[[ Collect Stars]]--
 local function collectStar(star_id) 
-		controller.update_collectable()
-		controller.play_sfx("collect", 1)
-		daabbcc.removeAABB("World",star_id)
+	controller.update_collectable()
+	controller.play_sfx("collect", 1)
+	daabbcc.removeAABB("World",star_id)
 
-		local go_name = "/"..controller.world["collectables"][star_id]["name"]
-		local go_pos  = controller.world["collectables"][star_id]["position"]
-		local go_sprite = controller.world["collectables"][star_id]["sprite"]
-		local go_to = go_pos
-		go_to.y= go_to.y+30
-		controller.world["collectables"][star_id] = nil
+	local go_name = "/"..controller.world["collectables"][star_id]["name"]
+	local go_pos  = controller.world["collectables"][star_id]["position"]
+	local go_sprite = controller.world["collectables"][star_id]["sprite"]
+	local go_to = go_pos
+
+	go_to.y= go_to.y+30
+	controller.world["collectables"][star_id] = nil
 	go.animate(go_name, "position", go.PLAYBACK_ONCE_FORWARD, go_to, go.EASING_INSINE, 0.4, 0,function() go.delete(go_name)end)
 end
 
@@ -169,12 +177,15 @@ end
 local function fix_hero_position(mnormal,depth )
 	_normal.x = mnormal.x
 	_normal.y = mnormal.y
+
 	if mnormal.y ~= 0 then
 		hero_pos.y = hero_pos.y - (depth * mnormal.y)
 	end
+
 	if mnormal.x ~= 0 then
 		hero_pos.x = hero_pos.x - (depth * mnormal.x)
 	end
+	
 end
 
 -- Kill the bunny

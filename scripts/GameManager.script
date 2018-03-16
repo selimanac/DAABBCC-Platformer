@@ -1,5 +1,6 @@
 local controller = require "scripts.controller"
 local sysinfo = sys.get_sys_info()
+
 go.property("ground_count", 9)
 go.property("star_count", 15)
 
@@ -28,11 +29,11 @@ function init(self)
 
 	-- DEFOS
 	if sysinfo.system_name == "Windows" or sysinfo.system_name == "Linux" or sysinfo.system_name == "Darwin" then
-		-- defos.disable_maximize_button()
-		-- defos.disable_minimize_button()
-		-- defos.set_cursor_visible(false)
-		-- defos.set_window_title("DAABBCC Example")
-		-- defos.set_fullscreen(true)
+		defos.disable_maximize_button()
+		defos.disable_minimize_button()
+		defos.set_cursor_visible(false)
+		defos.set_window_title("DAABBCC Example")
+		defos.set_fullscreen(true)
 	end
 
 	controller.reset()	
@@ -45,7 +46,7 @@ function init(self)
 	msg.post(hero_msg, "set_hero")
 	
 	-- Play music
-	--controller.play_sfx("music", 0.2)
+	controller.play_sfx("music", 0.2)
 
 	-- On Init rebuild optimal tree
 	daabbcc.rebuildTree("World")
@@ -86,6 +87,7 @@ function final(self)
 end
 
 function on_message(self, message_id, message, sender)
+	-- Reload	
 	if message_id == hash("_reload") then 
 		local proxy = msg.url("default", "/script", "Proxy")
 		msg.post(proxy,"unload_level")
