@@ -6,6 +6,7 @@ Example project for [DAABBCC](https://github.com/selimanac/DAABBCC) Native Exten
 
 - [Defos](https://github.com/subsoap/defos) by [subsoap](https://twitter.com/Pkeod)
 - [Orthographic Camera](https://github.com/britzl/defold-orthographic) by [Björn Ritzl](https://twitter.com/bjornritzl)
+- [Screen Fade](https://github.com/JCash/stencilfade) by [Mathias Westerdahl](https://twitter.com/mwesterdahl76)
 
 
 ## License
