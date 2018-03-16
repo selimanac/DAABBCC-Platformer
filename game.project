@@ -32,3 +32,12 @@ default_texture_mag_filter = nearest
 [native_extension]
 app_manifest = /release-nophysic.appmanifest
 
+[osx]
+bundle_identifier = com.selimanac.daabbcc.platformer
+
+[android]
+package = com.selimanac.daabbcc.platformer
+
+[ios]
+bundle_identifier = com.selimanac.daabbcc.platformer
+
