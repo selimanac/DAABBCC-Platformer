@@ -3,7 +3,6 @@ local orthocamera = require "orthographic.camera"
 go.property("backrounds_count", 3)
 
 local camera = hash("/camera")
-
 local initial_camera_position = vmath.vector3()
 local initial_position = vmath.vector3()
 local offset_factor = 0
@@ -14,10 +13,7 @@ local camera_bounds = vmath.vector3()
 local prev_camera_position = vmath.vector3()
 local direction = 1
 
-
-
 function init(self)
-
 	initial_camera_position = go.get_world_position("camera")
 	initial_position = go.get_position()
 	offset_factor =  0.02

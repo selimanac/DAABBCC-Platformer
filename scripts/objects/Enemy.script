@@ -1,8 +1,4 @@
 local controller = require "scripts.controller"
-
-local enemy_ids = 1
-
-
 go.property("speed", 40)
 
 function init(self)

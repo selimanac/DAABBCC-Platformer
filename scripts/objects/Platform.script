@@ -1,5 +1,4 @@
 local controller = require "scripts.controller"
-
 local platform_ids = 1
 
 go.property("position", vmath.vector3())
@@ -36,8 +35,7 @@ local function flip(self)
 	self.direction = (self.direction == -1) and 1 or -1	
 end
 
-function update(self, dt)
-	
+function update(self, dt)	
 	if self.horizantal then
 		if self.position.y >= self.target_pos and self.direction == 1 then
 			flip(self)
@@ -55,7 +53,7 @@ function update(self, dt)
 		self.position = vmath.vector3(self.position.x+(self.speed*dt)*self.direction,self.position.y,self.position.z)
 	end
 	
-	--Update enemy position(AABB) in tree
+	--Update platform position(AABB) in tree
 	daabbcc.updateRect("World",self.world_id,self.position.x, self.position.y,self.size.x, self.size.y )
 	go.set_position(self.position)
 

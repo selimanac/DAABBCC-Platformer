@@ -3,16 +3,22 @@ local controller = require "scripts.controller"
 
 local star_count_node
 local life_count_node
+local controls_node
 
-
-
+local function on_animation_done()
+	gui.delete_node(controls_node)
+end 
+local function on_in_animation_done()
+	gui.animate(controls_node, "position.y", -50, gui.EASING_OUTQUAD, 0.5, 5.0, on_animation_done, gui.PLAYBACK_ONCE_FORWARD)
+end 
 function init(self)
 	star_count_node = gui.get_node("stars")
 	life_count_node = gui.get_node("life")
+	controls_node = gui.get_node("controls")
+	gui.animate(controls_node, "position.y", 0, gui.EASING_OUTQUAD, 0.5, 0, on_in_animation_done, gui.PLAYBACK_ONCE_FORWARD)
+	
 	gui.set_text(star_count_node, "0")
-
 	gui.play_flipbook(life_count_node, "hud-4")
-
 end
 
 function final(self)

@@ -1,8 +1,4 @@
 local controller = require "scripts.controller"
-
-local enemy_ids = 1
-
-
 go.property("speed", 40)
 
 function init(self)
@@ -27,7 +23,6 @@ function init(self)
 	self.ray_rirection = vmath.vector3(-1, 0, 0) -- Down - Left
 	self.ray_distance = 30
 	
-
 	--Add enemy to the World Tree
 	self.world_id = controller.addRect("World",self.position, self.size, "enemy", self.name, self.sprite_url )	
 
@@ -55,7 +50,6 @@ local function hit_hero(self)
 	msg.post(self.sprite_url, "play_animation", {id = hash("plant-attack")})
 end
 
-
 function update(self, dt)
 	if self.is_death then			
 		return
@@ -76,14 +70,11 @@ function update(self, dt)
 			hit_hero(self)
 		end
 	else 
-		--debug_color =  vmath.vector4(1, 1, 1, 1) 
-	
+		--debug_color =  vmath.vector4(1, 1, 1, 1) 	
 	end 
 
 	-- Draw debug line
-	--	msg.post("@render:", "draw_line", { start_point =self.ray_position, end_point = ray_end_point, color = debug_color } )
-
-	
+	--	msg.post("@render:", "draw_line", { start_point =self.ray_position, end_point = ray_end_point, color = debug_color } )	
 end
 
 function on_message(self, message_id, message, sender)

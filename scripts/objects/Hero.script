@@ -2,7 +2,6 @@ local fsm = require "scripts.statemachine"
 local controller = require "scripts.controller"
 local orthocamera = require "orthographic.camera"
 
-
 local hero_id
 local hero_pos = vmath.vector3()
 local hero_size = vmath.vector3()
@@ -23,7 +22,6 @@ local is_hit_by_enemy = false
 
 local move_direction = -1
 local prev_direction = -1
-
 
 local old_velocity = vmath.vector3()
 local acceleration = vmath.vector3(10, 0, 0)
@@ -277,8 +275,9 @@ function update(self, dt)
 
 			--Check if collide with platform
 			if controller.world["platforms"][result_id] ~= nil  then 	
-				if mnormal.y == -1 and mnormal.x == 0 and herofsm.current ~= "jumping" and is_platform_from_bottom == false then			
-					is_on_platform = true
+				if mnormal.y == -1 and mnormal.x == 0 and herofsm.current ~= "jumping" and is_platform_from_bottom == false then	
+					is_hit_by_enemy = false			
+					is_on_platform = true			
 					if is_walking == true then
 						herofsm:WALK()
 					else
@@ -300,8 +299,7 @@ function update(self, dt)
 							delta =  (hero_pos.x - platform_position.x) 
 						end
 						hero_pos.x = platform_position.x+delta
-					end
-					
+					end				
 				else
 					is_on_platform = false
 					is_platform_from_bottom = true
@@ -311,9 +309,12 @@ function update(self, dt)
 
 			--Check if collide with ground
 			if controller.world["grounds"][result_id] ~= nil then 		
-					is_hit_by_enemy = false
+				
+				
+
 				-- If hit the ground sides
-				if (mnormal.x == -1 ) or (mnormal.x == 1 ) and is_from_bottom == false then					
+				if (mnormal.x == -1 ) or (mnormal.x == 1 ) and is_from_bottom == false then		
+					is_hit_by_enemy = true					
 					--fix_hero_position(mnormal, depth)
 					velocity.x = 0
 					if is_on_platform ==false and herofsm.current ~= "jumping" then					
@@ -324,11 +325,11 @@ function update(self, dt)
 					end
 				end
 
-				-- Bottom
+				-- Top of the ground
 				if mnormal.y == -1 and mnormal.x == 0 and herofsm.current ~= "jumping" and is_grounded==false and is_from_bottom == false then	
 					controller.play_sfx("drop", 0.3)
-				--	msg.post("camera", "shake", { intensity = 0.01, duration = 0.1, direction = "vertical" })
-				is_grounded = true 	
+					is_hit_by_enemy = false					
+					is_grounded = true 	
 				if is_walking == true then
 					herofsm:WALK()
 				else
@@ -353,7 +354,6 @@ function update(self, dt)
 	go.set_position(hero_pos)
 	velocity_limit = vmath.vector3()
 end
-
 
 function on_message(self, message_id, message, sender)
 	-- Initial setup

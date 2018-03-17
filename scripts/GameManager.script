@@ -36,6 +36,7 @@ function init(self)
 		defos.set_fullscreen(true)
 	end
 
+	-- Reset settings
 	controller.reset()	
 
 	-- Create grounds and collectables
