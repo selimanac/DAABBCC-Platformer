@@ -2,7 +2,7 @@
 
 Example project for [DAABBCC](https://github.com/selimanac/DAABBCC) Native Extension for [Defold Engine](https://www.defold.com/)
 
-[![DAABBCC-Platformer](https://raw.githubusercontent.com/selimanac/DAABBCC-Platformer/master/Screen%20Shot%202018-03-16%20at%2017.46.33.png)](https://github.com/selimanac/DAABBCC-Platformer)
+[![DAABBCC-Platformer](https://s9.postimg.org/h4546szvz/screen-shot.png)](https://github.com/selimanac/DAABBCC-Platformer)
 
 ## Dependencies
 
