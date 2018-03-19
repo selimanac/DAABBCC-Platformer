@@ -8,8 +8,9 @@ function init(self)
 	self.direction = -1
 	self.size = go.get("#sprite", "size")
 	-- tweak the size 
-	self.size.x = 60 
+	self.size.x = 40 
 	self.size.y = 35
+	self.bound_pos = vmath.vector3(self.position.x-10, self.position.y, self.position.z)
 
 	self.enemy_id = controller.enemy_ids --increase with duplicate
 	self.name = "enemy"..self.enemy_id 
@@ -24,7 +25,7 @@ function init(self)
 	self.ray_distance = 30
 	
 	--Add enemy to the World Tree
-	self.world_id = controller.addRect("World",self.position, self.size, "enemy", self.name, self.sprite_url )	
+	self.world_id = controller.addRect("World",self.bound_pos, self.size, "enemy", self.name, self.sprite_url )	
 
 	--Create a ray from enemy
 	self.ray_id = daabbcc.createRay(self.ray_position.x,self.ray_position.y, self.ray_rirection.x, self.ray_rirection.y, self.ray_distance)
