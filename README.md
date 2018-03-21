@@ -1,6 +1,8 @@
 # DAABBCC-Platformer
 
-Example project for [DAABBCC](https://github.com/selimanac/DAABBCC) Native Extension for [Defold Engine](https://www.defold.com/)
+Example project for [DAABBCC](https://github.com/selimanac/DAABBCC) Native Extension for [Defold Engine](https://www.defold.com/).
+
+This technical demo is avaible on [itch.io](https://selimanac.itch.io/daabbcc-platformer)
 
 [![DAABBCC-Platformer](https://s9.postimg.org/h4546szvz/screen-shot.png)](https://github.com/selimanac/DAABBCC-Platformer)
 
