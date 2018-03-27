@@ -29,11 +29,11 @@ function init(self)
 
 	-- DEFOS
 	if sysinfo.system_name == "Windows" or sysinfo.system_name == "Darwin" then
-		-- defos.disable_maximize_button()
-		-- defos.disable_minimize_button()
-		-- defos.set_cursor_visible(false)
-		-- defos.set_window_title("DAABBCC Example")
-		-- defos.set_fullscreen(true)
+		defos.disable_maximize_button()
+		defos.disable_minimize_button()
+		defos.set_cursor_visible(false)
+		defos.set_window_title("DAABBCC Example")
+		defos.set_fullscreen(true)
 	end
 
 	-- Reset settings
