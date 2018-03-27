@@ -35,10 +35,14 @@ app_manifest =
 
 [osx]
 bundle_identifier = com.selimanac.daabbcc.platformer
+app_icon = /assets/app_icons/appicon.icns
 
 [android]
 package = com.selimanac.daabbcc.platformer
 
 [ios]
 bundle_identifier = com.selimanac.daabbcc.platformer
+
+[windows]
+app_icon = /assets/app_icons/appicon.ico
 
