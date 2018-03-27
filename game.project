@@ -28,6 +28,7 @@ shared_state = 1
 [graphics]
 default_texture_min_filter = nearest
 default_texture_mag_filter = nearest
+texture_profiles = /graphics/test.texture_profiles
 
 [native_extension]
 app_manifest = 

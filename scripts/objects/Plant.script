@@ -56,26 +56,34 @@ function update(self, dt)
 		return
 	end
 	
-	-- Raycast to bunny
-	local ray_hit, ray_end, impact, ray_normal = daabbcc.rayCastToAABB("World", self.ray_id , controller.hero_id)
+	-- Query the tree for possible collisions
+	local query_result = daabbcc.queryID("World", controller.hero_id)
 
-	-- End point of the ray
-	local ray_end_point = vmath.vector3(ray_end.x,ray_end.y,0)
+	--[[ Check collisions ]]--
+	if#query_result > 0 then
+		
+		-- Raycast to bunny
+		local ray_hit, ray_end, impact, ray_normal = daabbcc.rayCastToAABB("World", self.ray_id , controller.hero_id)
 
-	-- If there is a hit
-	-- Turn on the debug_color , ray_end_point 
-	if ray_hit == 1 then
-		--ray_end_point = vmath.vector3(impact.x,impact.y,1)
-		--debug_color =  vmath.vector4(1, 0, 0, 1) 
-		if self.is_hitting == false then
-			hit_hero(self)
-		end
-	else 
-		--debug_color =  vmath.vector4(1, 1, 1, 1) 	
-	end 
+		-- End point of the ray
+		local ray_end_point = vmath.vector3(ray_end.x,ray_end.y,0)
 
-	-- Draw debug line
-	--	msg.post("@render:", "draw_line", { start_point =self.ray_position, end_point = ray_end_point, color = debug_color } )	
+		-- If there is a hit
+		-- Turn on the debug_color , ray_end_point 
+		if ray_hit == 1 then
+			--ray_end_point = vmath.vector3(impact.x,impact.y,1)
+			--debug_color =  vmath.vector4(1, 0, 0, 1) 
+			if self.is_hitting == false then
+				hit_hero(self)
+			end
+		else 
+			--debug_color =  vmath.vector4(1, 1, 1, 1) 	
+		end 
+
+		-- Draw debug line
+		--	msg.post("@render:", "draw_line", { start_point =self.ray_position, end_point = ray_end_point, color = debug_color } )	
+
+	end
 end
 
 function on_message(self, message_id, message, sender)

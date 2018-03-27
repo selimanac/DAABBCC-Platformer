@@ -33,6 +33,7 @@ local velocity_limit = 0
 local _jump = hash("_JUMP")
 local _move_left = hash("_MOVELEFT")
 local _move_right = hash("_MOVERIGHT")
+local _touch = hash("_TOUCH") 
 local delta
 local query_result = {}
 
@@ -364,7 +365,7 @@ function on_message(self, message_id, message, sender)
 end
 
 function on_input(self, action_id, action)
-
+	-- kevs
 	if action_id == _jump and action.pressed  then			
 		herofsm:JUMP()
 	end
@@ -378,7 +379,7 @@ function on_input(self, action_id, action)
 		herofsm:WALK() 		
 	end 
 
-	if action_id == _move_right and action.released    then   
+	if action_id == _move_right and action.released then   
 		is_walking = false		
 		if is_grounded == true then 
 			herofsm:IDLE() 
